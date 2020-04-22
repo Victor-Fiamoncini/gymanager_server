@@ -8,11 +8,7 @@
 		"node": "^12.16.1"
 	},
 	"scripts": {
-		"dev": "nodemon ./src/server.ts",
-		"build": "sucrase ./src -d ./build --transforms typescript,imports",
-		"test": "jest --forceExit --detectOpenHandles",
-		"start": "node ./build/server",
-		"heroku": "yarn build && yarn start"
+		"dev": "nodemon ./src/server.ts"
 	},
 	"dependencies": {
 		"bcrypt": "^4.0.1",
@@ -47,9 +43,9 @@
 		"jest": "^25.4.0",
 		"nodemon": "^2.0.3",
 		"prettier": "^2.0.5",
-		"sucrase": "^3.13.0",
+		"sqlite3": "^4.1.1",
 		"supertest": "^4.0.2",
-		"ts-node": "3.3.0",
+		"ts-node": "^8.9.0",
 		"typescript": "3.3.3333"
 	}
 }

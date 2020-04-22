@@ -1,9 +1,10 @@
+import 'reflect-metadata'
 import express, { Application } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 
-import Database from './app/config/Database'
 import routes from './routes'
+import databaseConfig from './app/database/config'
 
 /**
  * @class App
@@ -26,19 +27,10 @@ export default class App {
 		this.express.use(express.json())
 		this.express.use(morgan('dev'))
 		this.express.use(cors())
-
 		this.express.use(routes)
 	}
 
 	private database(): void {
-		const database = new Database(
-			process.env.DB_HOST,
-			process.env.DB_PORT,
-			process.env.DB_USER,
-			process.env.DB_PASS,
-			process.env.DB_DATABASE
-		)
-
-		database.connect()
+		databaseConfig()
 	}
 }
