@@ -1,8 +1,9 @@
 import { config } from 'dotenv'
 import { resolve } from 'path'
-import App from './App'
 
 config({ path: resolve(__dirname, '..', '.env') })
+
+import App from './App'
 
 const { app } = new App()
 const { PORT } = process.env

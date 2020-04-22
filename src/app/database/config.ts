@@ -1,13 +1,11 @@
 import { resolve } from 'path'
 import { createConnection } from 'typeorm'
 
-const { DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME, NODE_ENV } = process.env
-
-export default () => {
-	if (NODE_ENV === 'development')
+export default (host: string, username: string, password: string, database: string, port: number) => {
+	if (process.env.NODE_ENV === 'development')
 		return createConnection({
 			type: 'sqlite',
-			synchronize: true,
+			synchronize: false,
 			logging: false,
 			database: resolve(__dirname, 'db.sqlite'),
 			entities: [resolve(__dirname, '..', 'models', '*.ts')],
@@ -19,14 +17,17 @@ export default () => {
 
 	return createConnection({
 		type: 'postgres',
-		host: DB_HOST,
-		port: DB_PORT,
-		username: DB_USER,
-		password: DB_PASS,
-		database: DB_NAME,
+		host,
+		username,
+		password,
+		database,
+		port,
 		synchronize: true,
 		logging: false,
 		entities: [resolve(__dirname, '..', 'models', '*.ts')],
-		migrations: [resolve(__dirname, 'migrations', '*.ts')],
+		migrations: [`${__dirname}/migrations/*.ts`],
+		cli: {
+			migrationsDir: './src/app/database/migrations',
+		}
 	})
 }

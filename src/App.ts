@@ -31,6 +31,8 @@ export default class App {
 	}
 
 	private database(): void {
-		databaseConfig()
+		const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT } = process.env
+
+		databaseConfig(DB_HOST!, DB_USER!, DB_PASS!, DB_NAME!, Number(DB_PORT)!)
 	}
 }
