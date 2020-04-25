@@ -2,9 +2,8 @@ import 'reflect-metadata'
 import express, { Application } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-
+import { createConnection, Connection } from 'typeorm'
 import routes from './routes'
-import databaseConfig from './app/database/config'
 
 /**
  * @class App
@@ -14,12 +13,11 @@ export default class App {
 
 	public constructor() {
 		this.express = express()
-
 		this.middlewares()
 		this.database()
 	}
 
-	get app(): Application {
+	public get getApp(): Application {
 		return this.express
 	}
 
@@ -30,9 +28,7 @@ export default class App {
 		this.express.use(routes)
 	}
 
-	private database(): void {
-		const { DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT } = process.env
-
-		databaseConfig(DB_HOST!, DB_USER!, DB_PASS!, DB_NAME!, Number(DB_PORT)!)
+	private async database(): Promise<Connection> {
+		return await createConnection()
 	}
 }

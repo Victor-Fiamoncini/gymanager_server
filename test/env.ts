@@ -1,5 +1,5 @@
 process.env.PORT = 3333
-process.env.NODE_ENV='development'
+process.env.NODE_ENV = 'development'
 
 process.env.DB_NAME = 'gym_manager_test'
 process.env.DB_USER = 'postgres'
