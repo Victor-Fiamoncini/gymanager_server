@@ -2878,6 +2878,11 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+git-clone@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/git-clone/-/git-clone-0.1.0.tgz#0d76163778093aef7f1c30238f2a9ef3f07a2eb9"
+  integrity sha1-DXYWN3gJOu9/HDAjjyqe8/B6Lrk=
+
 glob-parent@^5.0.0, glob-parent@~5.1.0:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.1.tgz#b6c1ef417c4e5663ea498f1c45afac6916bbc229"
@@ -6004,6 +6009,13 @@ tr46@^1.0.1:
   integrity sha1-qLE/1r/SSJUZZ0zN5VujaTtwbQk=
   dependencies:
     punycode "^2.1.0"
+
+ts-node-cli@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/ts-node-cli/-/ts-node-cli-0.0.2.tgz#83c48585fbc5f4fbc3747530b900cf9e0b733cbb"
+  integrity sha512-k0uT1ED0WW5+ZazAyn7R4UD31vJ0mZaj4guAjkfvlw82V9CtZFLxFt4ep+Zl0EgiwxK6IZKMinSzJNantsFhbg==
+  dependencies:
+    git-clone "^0.1.0"
 
 ts-node@^8.9.0:
   version "8.9.0"

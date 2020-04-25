@@ -11,7 +11,7 @@ if (NODE_ENV === 'development') {
 		type: 'sqlite',
 		logging: true,
 		synchronize: false,
-		database: './src/app/database/db.sqlite',
+		database: 'src/app/database/db.sqlite',
 	}
 } else {
 	dbConfig = {
@@ -22,18 +22,18 @@ if (NODE_ENV === 'development') {
 		password: DB_PASS,
 		database: DB_NAME,
 		logging: true,
-		synchronize: false,
+		synchronize: true,
 	}
 }
 
-dbConfig.entities = ['./src/app/models']
-dbConfig.migrations = ['./src/app/database/migrations']
-dbConfig.subscribers = ['./src/app/database/subscribers']
+dbConfig.entities = ['src/app/models/**/*.ts']
+dbConfig.migrations = ['src/app/database/migrations/**/*.ts']
+dbConfig.subscribers = ['src/app/database/subscribers/**/*.ts']
 
 dbConfig.cli = {
-	entitiesDir: './src/app/models',
-	migrationsDir: './src/app/database/migrations',
-	subscribersDir: './src/app/database/subscribers',
+	entitiesDir: 'src/app/models',
+	migrationsDir: 'src/app/database/migrations',
+	subscribersDir: 'src/app/database/subscribers',
 }
 
 module.exports = dbConfig
