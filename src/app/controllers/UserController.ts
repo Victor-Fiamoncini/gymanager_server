@@ -1,25 +1,28 @@
 import { Request, Response } from 'express'
-import { getRepository } from 'typeorm'
+import { validate } from 'class-validator'
 import { User } from '../models/User'
 
+/**
+ * @class UserController
+ */
 class UserController {
-	public async index(req: Request, res: Response): Promise<Response> {
-		const users = await getRepository(User).find()
-
-		return res.json(users)
-	}
-
 	public async store(req: Request, res: Response): Promise<Response> {
+		const { name, email, password, photo } = req.body
 		try {
-			const { name, email, birthdate } = req.body
+			const user = new User()
+			user.name = name
+			user.email = email
+			user.password = password
+			user.photo = photo
 
-			const user = await getRepository(User).insert({
-				name,
-				email,
-				birthdate,
-			})
+			const errors = await validate(user)
 
-			return res.status(201).json({ user: user.identifiers[0] })
+			if (errors.length > 0)
+				return res.status(400).json(errors)
+
+			await user.save()
+
+			return res.status(201).json(user)
 		} catch (err) {
 			return res.status(400).json(err)
 		}

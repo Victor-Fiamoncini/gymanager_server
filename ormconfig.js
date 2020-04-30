@@ -3,28 +3,29 @@ const { config } = require('dotenv')
 
 config({ path: resolve(__dirname, '.env') })
 
-const { DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, NODE_ENV } = process.env
-let dbConfig
+const {
+	DB_HOST,
+	DB_NAME,
+	DB_USER,
+	DB_PASS,
+	DB_PORT,
+	DB_TEST,
+	NODE_ENV,
+} = process.env
 
-if (NODE_ENV === 'development') {
-	dbConfig = {
-		type: 'sqlite',
-		logging: true,
-		synchronize: false,
-		database: 'src/app/database/db.sqlite',
-	}
-} else {
-	dbConfig = {
-		type: 'postgres',
-		host: DB_HOST,
-		port: DB_PORT,
-		username: DB_USER,
-		password: DB_PASS,
-		database: DB_NAME,
-		logging: true,
-		synchronize: true,
-	}
-}
+const dbConfig = {}
+
+NODE_ENV === 'development'
+	? (dbConfig.database = DB_TEST)
+	: (dbConfig.database = DB_NAME)
+
+dbConfig.type = 'postgres'
+dbConfig.host = DB_HOST
+dbConfig.port = DB_PORT
+dbConfig.username = DB_USER
+dbConfig.password = DB_PASS
+dbConfig.logging = false
+dbConfig.synchronize = true
 
 dbConfig.entities = ['src/app/models/**/*.ts']
 dbConfig.migrations = ['src/app/database/migrations/**/*.ts']

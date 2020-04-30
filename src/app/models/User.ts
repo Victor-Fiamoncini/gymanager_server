@@ -1,16 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import { Length, IsNotEmpty, IsEmail } from 'class-validator'
+import { hash } from 'bcrypt'
+
+import errors from '../config/messages/errors'
 
 @Entity({ name: 'users' })
-export class User {
+export class User extends BaseEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: number
 
-	@Column()
+	@Column('varchar', { length: 255 })
 	name: string
 
-	@Column({ nullable: false, unique: true })
+	@Column('varchar', { nullable: false, unique: true })
+	@IsEmail({}, { message: errors.users.email.isEmail })
+	@IsNotEmpty({ message: errors.users.email.isNotEmpty })
 	email: string
 
-	@Column()
-	birthdate: string
+	@Column('varchar', { nullable: false })
+	@Length(6, undefined, { message: errors.users.password.length })
+	password: string
+
+	@Column('varchar')
+	photo: string
+
+	@CreateDateColumn({ type: 'timestamp' })
+	createdAt: string;
+
+	@UpdateDateColumn({ type: 'timestamp' })
+	updatedAt: number;
+
+	@BeforeInsert()
+	@BeforeUpdate()
+	async passwordMutator() {
+		if (this.password)
+			this.password = await hash(this.password, 10)
+	}
 }
