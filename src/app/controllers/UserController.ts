@@ -6,14 +6,16 @@ import { User } from '../models/User'
  * @class UserController
  */
 class UserController {
+	private user: User
+
 	public async store(req: Request, res: Response): Promise<Response> {
-		const { name, email, password, photo } = req.body
+		const { name, email, password } = req.body
 		try {
 			const user = new User()
 			user.name = name
 			user.email = email
 			user.password = password
-			user.photo = photo
+			user.photo = req.file.filename
 
 			const errors = await validate(user)
 

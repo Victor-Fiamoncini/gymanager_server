@@ -8,7 +8,7 @@ const { getApp } = new App()
 
 describe('User', () => {
 	beforeAll(async () => {
-		const connection = await createConnection({
+		await createConnection({
 			type: 'postgres',
 			host: process.env.DB_HOST,
 			port: Number(process.env.DB_PORT),
@@ -36,6 +36,11 @@ describe('User', () => {
 			})
 
 		expect(res.status).toBe(201)
-		expect(res.body).toHaveProperty('name')
+		expect(res.body).toEqual(
+			expect.objectContaining({
+				name: 'Victor',
+				email: 'victor.fiamoncini@gmail.com',
+			})
+		)
 	})
 })

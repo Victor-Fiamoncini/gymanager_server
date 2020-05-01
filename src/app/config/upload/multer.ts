@@ -1,20 +1,30 @@
-import multer from 'multer'
+import { Request } from 'express'
 import { resolve } from 'path'
 import { randomBytes } from 'crypto'
-import { Request } from 'express'
+import multer, { FileFilterCallback } from 'multer'
 
-type MulterCallback = (error: Error | null, filename?: string) => void
+const pathToUploads = resolve(__dirname, '..', '..', '..', '..', 'tmp', 'uploads')
 
 export default {
-	dest: resolve(__dirname, '..', '..', 'tmp', 'uploads'),
+	dest: pathToUploads,
 	storage: multer.diskStorage({
-		destination: () => {},
-		filename: () => {},
+		destination: (req: Request, file: Express.Multer.File, callback) => {
+			callback(null, pathToUploads)
+		},
+		filename: (req: Request, file: Express.Multer.File, callback) => {
+			randomBytes(16, (err: Error, buf: Buffer) => {
+				if (err)
+					callback(err, '')
+
+				const filename = `${buf.toString('hex')}-${file.originalname}`
+				callback(null, filename)
+			})
+		},
 	}),
 	limits: {
 		fileSize: 2 * 1024 * 1024,
 	},
-	fileFilter: (req: Request, file: Express.Multer.File, callback: MulterCallback) => {
+	fileFilter: (req: Request, file: Express.Multer.File, callback: FileFilterCallback) => {
 		const allowedMimes = [
 			'image/jpeg',
 			'image/pjpeg',
@@ -22,8 +32,8 @@ export default {
 		]
 
 		if (allowedMimes.includes(file.mimetype))
-			return callback(null, file.filename)
-
-		return callback(new Error('Invalid file type'))
+			callback(null, true)
+		else
+			callback(new Error('Invalid file type'))
 	},
 }
