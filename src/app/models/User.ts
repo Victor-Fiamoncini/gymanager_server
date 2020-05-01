@@ -32,7 +32,9 @@ export class User extends BaseEntity {
 
 	@BeforeInsert()
 	@BeforeUpdate()
-	async passwordMutator() {
+	async onInsertAndOnUpdate() {
+		this.updatedAt = Date.now()
+
 		if (this.password)
 			this.password = await hash(this.password, 10)
 	}

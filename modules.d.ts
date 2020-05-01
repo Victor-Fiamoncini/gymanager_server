@@ -1,6 +1,7 @@
 declare namespace NodeJS {
 	export interface ProcessEnv {
 		PORT: number
+		APP_URL: string
 		NODE_ENV: string
 		DB_HOST: string
 		DB_USER: string
