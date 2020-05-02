@@ -5,28 +5,25 @@ import morgan from 'morgan'
 import { createConnection, Connection } from 'typeorm'
 import routes from './routes'
 
-/**
- * @class App
- */
 export default class App {
-	private express: Application
+	private app: Application
 
 	public constructor() {
-		this.express = express()
+		this.app = express()
 
 		this.middlewares()
 		this.database()
 	}
 
 	public get getApp(): Application {
-		return this.express
+		return this.app
 	}
 
 	private middlewares(): void {
-		this.express.use(express.json())
-		this.express.use(morgan('dev'))
-		this.express.use(cors())
-		this.express.use(routes)
+		this.app.use(express.json())
+		this.app.use(morgan('dev'))
+		this.app.use(cors())
+		this.app.use(routes)
 	}
 
 	private async database(): Promise<Connection> {

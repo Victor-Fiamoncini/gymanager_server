@@ -1,8 +1,9 @@
+import { resolve } from 'path'
 import { createConnection } from 'typeorm'
 import request, { Response } from 'supertest'
 
 import App from '../../src/App'
-import { User } from '../../src/app/models/User'
+import User from '../../src/app/models/User'
 
 const { getApp } = new App()
 
@@ -28,12 +29,10 @@ describe('User', () => {
 	it('should store a new user', async () => {
 		const res: Response = await request(getApp)
 			.post('/users')
-			.send({
-				name: 'Victor',
-				email: 'victor.fiamoncini@gmail.com',
-				password: '1234567',
-				photo: 'example.png'
-			})
+			.field('name', 'Victor')
+			.field('email', 'victor.fiamoncini@gmail.com')
+			.field('password', '1234567')
+			.attach('photo', resolve(__dirname, '..', 'photo.jpeg'))
 
 		expect(res.status).toBe(201)
 		expect(res.body).toEqual(

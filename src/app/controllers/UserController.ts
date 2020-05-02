@@ -1,34 +1,29 @@
 import { Request, Response } from 'express'
 import { validate } from 'class-validator'
-import { User } from '../models/User'
+import User from '../models/User'
 
-/**
- * @class UserController
- */
-class UserController {
+export default class UserController {
 	private user: User
+
+	public constructor(user: User) {
+		this.user = user
+	}
 
 	public async store(req: Request, res: Response): Promise<Response> {
 		const { name, email, password } = req.body
-		try {
-			const user = new User()
-			user.name = name
-			user.email = email
-			user.password = password
-			user.photo = req.file.filename
 
-			const errors = await validate(user)
+		this.user.name = name
+		this.user.email = email
+		this.user.password = password
+		this.user.photo = req.file ? req.file.filename : ''
 
-			if (errors.length > 0)
-				return res.status(400).json(errors)
+		const errors = await validate(this.user)
 
-			await user.save()
+		if (errors.length > 0)
+			return res.status(400).json(errors)
 
-			return res.status(201).json(user)
-		} catch (err) {
-			return res.status(400).json(err)
-		}
+		await this.user.save()
+
+		return res.status(201).json(this.user)
 	}
 }
-
-export default new UserController()

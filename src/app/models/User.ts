@@ -5,7 +5,7 @@ import { hash } from 'bcrypt'
 import errors from '../config/messages/errors'
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export default class User extends BaseEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: number
 
