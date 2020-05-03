@@ -22,7 +22,7 @@ export default class App {
 	private middlewares(): void {
 		this.app.use(express.json())
 		this.app.use(morgan('dev'))
-		this.app.use(cors())
+		this.app.use(cors({ origin: process.env.CLIENT_HOST }))
 		this.app.use(routes)
 	}
 
