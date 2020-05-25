@@ -10,11 +10,16 @@ module.exports = {
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
+		require: true,
+		process: true,
+		module: true,
+		__dirname: true,
 	},
 	parser: '@typescript-eslint/parser',
 	parserOptions: {
 		ecmaVersion: 2018,
 		sourceType: 'module',
+		require,
 	},
 	plugins: ['@typescript-eslint'],
 	rules: {

@@ -2,9 +2,13 @@
 .vscode/
 node_modules/
 build/
-temp/
+
+temp/uploads/*
+
 *.env
 *.DS_Store
 *.sqlite
 *.lock
-tmp/uploads/*
+
+yarn-error.log
+yarn.lock

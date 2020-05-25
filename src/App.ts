@@ -3,6 +3,7 @@ import express, { Application } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import { createConnection, Connection } from 'typeorm'
+
 import routes from './routes'
 
 export default class App {

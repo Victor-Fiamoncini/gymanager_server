@@ -9,7 +9,7 @@ export default class UserController {
 		this.user = user
 	}
 
-	public async store(req: Request, res: Response): Promise<Response> {
+	public async store(req: Request, res: Response) {
 		const { name, email, password } = req.body
 
 		this.user.name = name
@@ -19,8 +19,9 @@ export default class UserController {
 
 		const errors = await validate(this.user)
 
-		if (errors.length > 0)
+		if (errors.length > 0) {
 			return res.status(400).json(errors)
+		}
 
 		await this.user.save()
 

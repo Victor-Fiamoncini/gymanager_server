@@ -5,10 +5,13 @@ export default {
 			isNotEmpty: 'Por favor, informe um e-mail',
 		},
 		password: {
-			length: 'Senha muito curta'
+			length: 'Senha muito curta',
 		},
 		birthdate: {
-			isDate: 'Formato de data inválido'
-		}
+			isDate: 'Formato de data inválido',
+		},
+		auth: {
+			notFound: 'Credenciais inválidas',
+		},
 	},
 }

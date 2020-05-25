@@ -19,7 +19,7 @@ NODE_ENV === 'development'
 	? (dbConfig.database = DB_TEST)
 	: (dbConfig.database = DB_NAME)
 
-dbConfig.type = 'postgres'
+dbConfig.type = 'mysql'
 dbConfig.host = DB_HOST
 dbConfig.port = DB_PORT
 dbConfig.username = DB_USER

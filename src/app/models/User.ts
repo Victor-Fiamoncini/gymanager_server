@@ -1,4 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, BaseEntity, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	BeforeInsert,
+	BeforeUpdate,
+	BaseEntity,
+	CreateDateColumn,
+	UpdateDateColumn,
+} from 'typeorm'
 import { Length, IsNotEmpty, IsEmail } from 'class-validator'
 import { hash } from 'bcrypt'
 
@@ -6,7 +15,7 @@ import errors from '../config/messages/errors'
 
 @Entity({ name: 'users' })
 export default class User extends BaseEntity {
-	@PrimaryGeneratedColumn('uuid')
+	@PrimaryGeneratedColumn('increment')
 	id: number
 
 	@Column('varchar', { length: 255 })
@@ -24,18 +33,22 @@ export default class User extends BaseEntity {
 	@Column('varchar')
 	photo: string
 
+	@Column('varchar')
+	photoUrl: string
+
 	@CreateDateColumn({ type: 'timestamp' })
-	createdAt: string;
+	createdAt: string
 
 	@UpdateDateColumn({ type: 'timestamp' })
-	updatedAt: number;
+	updatedAt: number
 
 	@BeforeInsert()
 	@BeforeUpdate()
-	async onInsertAndOnUpdate() {
+	async beforeInsertAndBeforeUpdate() {
 		this.updatedAt = Date.now()
 
-		if (this.password)
+		if (this.password) {
 			this.password = await hash(this.password, 10)
+		}
 	}
 }

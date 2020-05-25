@@ -8,4 +8,4 @@ import App from './App'
 const { getApp } = new App()
 const { PORT } = process.env
 
-getApp.listen(PORT, () => console.log(`Server running at ${PORT}`))
+getApp.listen(PORT, () => console.log(`Server running at ${PORT} 🚀`))
