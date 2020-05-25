@@ -1,43 +1,43 @@
 import { Request, Response } from 'express'
-import jwt, { Secret } from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
+import { getCustomRepository } from 'typeorm'
 
 import { AuthRequest } from '../types'
-import User from '../models/User/User'
+import UserRepository from '../models/User/UserRepository'
 import errors from '../config/messages/errors'
 
 class SessionController {
 	public async store(req: Request, res: Response) {
 		const { email, password } = req.body
-		const user = await User.findOne({ where: { email } })
+
+		const userRepository = getCustomRepository(UserRepository)
+		const user = await userRepository.findByEmail(email)
 
 		if (!user) {
 			return res.status(404).json({
-				message: errors.users.auth.notFound,
+				error: errors.users.notFound,
 			})
 		}
 
-		if (!(await bcrypt.compare(password, user.password))) {
-			return res.status(404).json({
-				message: errors.users.auth.notFound,
+		if (!(await user.matchPassword(password))) {
+			return res.status(401).json({
+				error: errors.users.session.invalidCredentials,
 			})
 		}
 
 		delete user.password
 
-		const secret: Secret = process.env.JWT_AUTH_SECRET!
-
 		return res.json({
 			user,
-			token: jwt.sign({ id: user.id }, secret, { expiresIn: 86400 }),
+			token: user.generateToken(),
 		})
 	}
 
 	public async refresh(req: AuthRequest, res: Response) {
-		const user = await User.findOne(req.userId)
+		const userRepository = getCustomRepository(UserRepository)
+		const user = await userRepository.findOne(req.userId)
 
 		if (!user) {
-			return res.status(200).json({ error: errors.users.notFound })
+			return res.status(404).json({ error: errors.users.notFound })
 		}
 
 		return res.status(200).json(user)

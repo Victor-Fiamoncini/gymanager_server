@@ -9,6 +9,7 @@ import {
 	UpdateDateColumn,
 } from 'typeorm'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 @Entity({ name: 'users' })
 export default class User extends BaseEntity {
@@ -21,7 +22,7 @@ export default class User extends BaseEntity {
 	@Column('varchar', { nullable: false, unique: true })
 	email: string
 
-	@Column('varchar', { nullable: false })
+	@Column('varchar', { nullable: false, select: false })
 	password: string
 
 	@Column('varchar', { nullable: true, default: '' })
@@ -37,14 +38,14 @@ export default class User extends BaseEntity {
 	updatedAt: number
 
 	@BeforeInsert()
-	async beforeInsert() {
+	public async beforeInsert() {
 		if (this.password) {
 			this.password = await this.encrypt(this.password)
 		}
 	}
 
 	@BeforeUpdate()
-	async beforeUpdate() {
+	public async beforeUpdate() {
 		if (this.password) {
 			this.password = await this.encrypt(this.password)
 		}
@@ -54,7 +55,19 @@ export default class User extends BaseEntity {
 		}
 	}
 
-	async encrypt(password: string) {
+	public async encrypt(password: string) {
 		return await bcrypt.hash(password, await bcrypt.genSalt(10))
+	}
+
+	public async matchPassword(password: string) {
+		return await bcrypt.compare(password, this.password)
+	}
+
+	public generateToken() {
+		const { JWT_AUTH_SECRET, JWT_EXPIRES } = process.env
+
+		return jwt.sign({ id: this.id }, JWT_AUTH_SECRET!, {
+			expiresIn: Number(JWT_EXPIRES),
+		})
 	}
 }

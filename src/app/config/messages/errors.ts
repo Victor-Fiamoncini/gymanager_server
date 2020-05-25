@@ -10,8 +10,9 @@ export default {
 		birthdate: {
 			isDate: 'Formato de data inválido',
 		},
-		auth: {
-			notFound: 'Credenciais inválidas',
+		session: {
+			unauthorized: 'Sem permissão',
+			invalidCredentials: 'Credenciais inválidas',
 		},
 		notFound: 'Usuário não encontrado',
 		alreadyExists: 'Esse usuário já está cadastrado',

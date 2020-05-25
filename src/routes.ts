@@ -7,22 +7,35 @@ import * as validators from './app/validators'
 const router = Router()
 
 /**
- * Session
+ * Public Sessions
  */
 router.post('/sessions', middlewares.async(controllers.SessionController.store))
-router.get(
-	'/sessions',
-	middlewares.async(controllers.SessionController.refresh)
-)
 
 /**
- * User
+ * Public Users
  */
 router.post(
 	'/users',
 	validators.UserValidator.store,
 	middlewares.async(controllers.UserController.store)
 )
+
+/**
+ * Protected routes
+ */
+router.use(middlewares.auth)
+
+/**
+ * Protected Sessions
+ */
+router.get(
+	'/sessions',
+	middlewares.async(controllers.SessionController.refresh)
+)
+
+/**
+ * Protected Users
+ */
 router.put(
 	'/users/:id',
 	validators.UserValidator.update,
