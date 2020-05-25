@@ -3,7 +3,7 @@ import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
 import { AuthRequest } from '../types'
-import User from '../models/User'
+import User from '../models/User/User'
 import errors from '../config/messages/errors'
 
 class SessionController {

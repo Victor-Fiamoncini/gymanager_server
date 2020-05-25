@@ -14,5 +14,6 @@ export default {
 			notFound: 'Credenciais inválidas',
 		},
 		notFound: 'Usuário não encontrado',
+		alreadyExists: 'Esse usuário já está cadastrado',
 	},
 }

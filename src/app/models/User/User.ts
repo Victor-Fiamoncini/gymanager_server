@@ -24,10 +24,10 @@ export default class User extends BaseEntity {
 	@Column('varchar', { nullable: false })
 	password: string
 
-	@Column('varchar', { default: '' })
+	@Column('varchar', { nullable: true, default: '' })
 	photo: string
 
-	@Column('varchar', { default: '' })
+	@Column('varchar', { nullable: true, default: '' })
 	photoUrl: string
 
 	@CreateDateColumn({ type: 'timestamp' })
@@ -38,10 +38,15 @@ export default class User extends BaseEntity {
 
 	@BeforeInsert()
 	async beforeInsert() {
-		this.updatedAt = Date.now()
-
 		if (this.password) {
-			this.password = await bcrypt.hash(this.password, await bcrypt.genSalt(10))
+			this.password = await this.encrypt(this.password)
+		}
+	}
+
+	@BeforeUpdate()
+	async beforeUpdate() {
+		if (this.password) {
+			this.password = await this.encrypt(this.password)
 		}
 
 		if (this.photo) {
@@ -49,16 +54,7 @@ export default class User extends BaseEntity {
 		}
 	}
 
-	@BeforeUpdate()
-	async beforeUpdate() {
-		this.updatedAt = Date.now()
-
-		if (this.password) {
-			this.password = await bcrypt.hash(this.password, await bcrypt.genSalt(10))
-		}
-
-		if (this.photo) {
-			this.photoUrl = `${process.env.APP_URL}/files/${this.photo}`
-		}
+	async encrypt(password: string) {
+		return await bcrypt.hash(password, await bcrypt.genSalt(10))
 	}
 }

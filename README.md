@@ -1,4 +1,4 @@
-# Gym Manager REST API 👾
+# Gymanager REST API 👾
 
 REST API for gym management - Built with 💙 Typecript, Express, TypeORM, Multer...
 
