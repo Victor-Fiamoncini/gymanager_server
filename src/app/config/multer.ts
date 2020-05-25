@@ -3,15 +3,7 @@ import { resolve } from 'path'
 import { randomBytes } from 'crypto'
 import multer, { FileFilterCallback } from 'multer'
 
-const pathToUploads = resolve(
-	__dirname,
-	'..',
-	'..',
-	'..',
-	'..',
-	'temp',
-	'uploads'
-)
+const pathToUploads = resolve(__dirname, '..', '..', '..', 'temp', 'uploads')
 
 const allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png']
 

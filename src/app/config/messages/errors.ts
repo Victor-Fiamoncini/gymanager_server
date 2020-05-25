@@ -13,5 +13,6 @@ export default {
 		auth: {
 			notFound: 'Credenciais inválidas',
 		},
+		notFound: 'Usuário não encontrado',
 	},
 }

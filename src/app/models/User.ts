@@ -1,17 +1,14 @@
 import {
-	Entity,
-	PrimaryGeneratedColumn,
-	Column,
 	BeforeInsert,
 	BeforeUpdate,
 	BaseEntity,
+	Column,
 	CreateDateColumn,
+	Entity,
+	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 } from 'typeorm'
-import { Length, IsNotEmpty, IsEmail } from 'class-validator'
-import { hash } from 'bcrypt'
-
-import errors from '../config/messages/errors'
+import bcrypt from 'bcrypt'
 
 @Entity({ name: 'users' })
 export default class User extends BaseEntity {
@@ -22,12 +19,9 @@ export default class User extends BaseEntity {
 	name: string
 
 	@Column('varchar', { nullable: false, unique: true })
-	@IsEmail({}, { message: errors.users.email.isEmail })
-	@IsNotEmpty({ message: errors.users.email.isNotEmpty })
 	email: string
 
 	@Column('varchar', { nullable: false })
-	@Length(6, undefined, { message: errors.users.password.length })
 	password: string
 
 	@Column('varchar')
@@ -43,12 +37,28 @@ export default class User extends BaseEntity {
 	updatedAt: number
 
 	@BeforeInsert()
-	@BeforeUpdate()
-	async beforeInsertAndBeforeUpdate() {
+	async beforeInsert() {
 		this.updatedAt = Date.now()
 
 		if (this.password) {
-			this.password = await hash(this.password, 10)
+			this.password = await bcrypt.hash(this.password, await bcrypt.genSalt(10))
+		}
+
+		if (this.photo) {
+			this.photoUrl = `${process.env.APP_URL}/files/${this.photo}`
+		}
+	}
+
+	@BeforeUpdate()
+	async beforeUpdate() {
+		this.updatedAt = Date.now()
+
+		if (this.password) {
+			this.password = await bcrypt.hash(this.password, await bcrypt.genSalt(10))
+		}
+
+		if (this.photo) {
+			this.photoUrl = `${process.env.APP_URL}/files/${this.photo}`
 		}
 	}
 }

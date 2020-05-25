@@ -2,14 +2,14 @@ import { Request, Response } from 'express'
 import jwt, { Secret } from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-import { AuthRequest } from './types'
+import { AuthRequest } from '../types'
 import User from '../models/User'
 import errors from '../config/messages/errors'
 
-class AuthController {
-	public async signIn(req: Request, res: Response) {
+class SessionController {
+	public async store(req: Request, res: Response) {
 		const { email, password } = req.body
-		const user = await User.findOneOrFail({ where: { email } })
+		const user = await User.findOne({ where: { email } })
 
 		if (!user) {
 			return res.status(404).json({
@@ -33,11 +33,15 @@ class AuthController {
 		})
 	}
 
-	public async getUserById(req: AuthRequest, res: Response) {
+	public async refresh(req: AuthRequest, res: Response) {
 		const user = await User.findOne(req.userId)
+
+		if (!user) {
+			return res.status(200).json({ error: errors.users.notFound })
+		}
 
 		return res.status(200).json(user)
 	}
 }
 
-export default new AuthController()
+export default new SessionController()

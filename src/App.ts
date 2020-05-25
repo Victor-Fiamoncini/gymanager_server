@@ -16,7 +16,7 @@ export default class App {
 		this.database()
 	}
 
-	public get getApp(): Application {
+	public get _app(): Application {
 		return this.app
 	}
 

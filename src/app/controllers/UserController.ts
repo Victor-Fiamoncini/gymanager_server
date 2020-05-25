@@ -1,30 +1,37 @@
 import { Request, Response } from 'express'
-import { validate } from 'class-validator'
+
 import User from '../models/User'
+import errorMessages from '../config/messages/errors'
 
-export default class UserController {
-	private user: User
-
-	public constructor(user: User) {
-		this.user = user
-	}
-
+class UserController {
 	public async store(req: Request, res: Response) {
 		const { name, email, password } = req.body
 
-		this.user.name = name
-		this.user.email = email
-		this.user.password = password
-		this.user.photo = req.file ? req.file.filename : ''
+		const user = new User()
 
-		const errors = await validate(this.user)
+		user.name = name
+		user.email = email
+		user.password = password
+		user.photo = req.file ? req.file.filename : ''
 
-		if (errors.length > 0) {
-			return res.status(400).json(errors)
+		await user.save()
+
+		delete user.password
+
+		return res.status(201).json(user)
+	}
+
+	public async update(req: Request, res: Response) {
+		const { id } = req.params
+
+		const user = await User.findOne(id)
+
+		if (!user) {
+			return res.status(400).json({ error: errorMessages.users.notFound })
 		}
 
-		await this.user.save()
-
-		return res.status(201).json(this.user)
+		return res.status(200).json(user)
 	}
 }
+
+export default new UserController()

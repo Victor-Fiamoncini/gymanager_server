@@ -1,6 +1,6 @@
 # Gym Manager REST API 👾
 
-REST API for gym management - Built with 💙 Typecript, Express, Jest, TypeORM, Multer...
+REST API for gym management - Built with 💙 Typecript, Express, TypeORM, Multer...
 
 ## How to install and run 🛠
 Using npm:
