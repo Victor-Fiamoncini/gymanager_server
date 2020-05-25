@@ -12,7 +12,6 @@ class UserController {
 		user.name = name
 		user.email = email
 		user.password = password
-		user.photo = req.file ? req.file.filename : ''
 
 		await user.save()
 

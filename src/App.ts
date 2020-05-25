@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import { createConnection, Connection } from 'typeorm'
 
 import routes from './routes'
+import { error } from './app/middlewares'
 
 export default class App {
 	private app: Application
@@ -25,6 +26,7 @@ export default class App {
 		this.app.use(morgan('dev'))
 		this.app.use(cors({ origin: process.env.CLIENT_HOST }))
 		this.app.use(routes)
+		this.app.use(error)
 	}
 
 	private async database(): Promise<Connection> {

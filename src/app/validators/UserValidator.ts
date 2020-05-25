@@ -5,7 +5,7 @@ import validate from '../utils/validate'
 class UserValidator {
 	async store(req: Request, res: Response, next: NextFunction) {
 		const schema = Joi.object().keys({
-			name: Joi.string(),
+			name: Joi.string().min(2).required(),
 			email: Joi.string().email().required(),
 			password: Joi.string().min(6).required(),
 		})
@@ -15,7 +15,7 @@ class UserValidator {
 
 	async update(req: Request, res: Response, next: NextFunction) {
 		const schema = Joi.object().keys({
-			name: Joi.string(),
+			name: Joi.string().min(2).required(),
 			email: Joi.string().email().required(),
 			password: Joi.string().min(6).required(),
 			confirmPassword: Joi.string().min(6).valid(Joi.ref('password')),

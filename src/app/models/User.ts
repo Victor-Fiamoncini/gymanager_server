@@ -15,7 +15,7 @@ export default class User extends BaseEntity {
 	@PrimaryGeneratedColumn('increment')
 	id: number
 
-	@Column('varchar', { length: 255 })
+	@Column('varchar', { length: 255, nullable: false })
 	name: string
 
 	@Column('varchar', { nullable: false, unique: true })
@@ -24,10 +24,10 @@ export default class User extends BaseEntity {
 	@Column('varchar', { nullable: false })
 	password: string
 
-	@Column('varchar')
+	@Column('varchar', { default: '' })
 	photo: string
 
-	@Column('varchar')
+	@Column('varchar', { default: '' })
 	photoUrl: string
 
 	@CreateDateColumn({ type: 'timestamp' })

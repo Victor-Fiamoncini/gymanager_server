@@ -6,25 +6,32 @@ import * as validators from './app/validators'
 
 const router = Router()
 
-router.post('/sessions', controllers.SessionController.store)
-router.get('/sessions', controllers.SessionController.refresh)
+/**
+ * Session
+ */
+router.post('/sessions', middlewares.async(controllers.SessionController.store))
+router.get(
+	'/sessions',
+	middlewares.async(controllers.SessionController.refresh)
+)
 
+/**
+ * User
+ */
 router.post(
 	'/users',
 	validators.UserValidator.store,
-	controllers.UserController.store
+	middlewares.async(controllers.UserController.store)
 )
-
 router.put(
 	'/users/:id',
 	validators.UserValidator.update,
-	controllers.UserController.update
+	middlewares.async(controllers.UserController.update)
 )
-
 router.put(
 	'/users/:id/photo',
-	middlewares.withUpload.single('photo'),
-	controllers.UserController.update
+	middlewares.upload.single('photo'),
+	middlewares.async(controllers.UserController.update)
 )
 
 export default router
