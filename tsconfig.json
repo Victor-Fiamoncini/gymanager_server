@@ -6,14 +6,13 @@
 		"moduleResolution": "node",
 		"rootDir": "./src",
 		"outDir": "./build",
+		"allowJs": true,
 		"strict": true,
 		"esModuleInterop": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"allowJs": true,
 		"sourceMap": true,
-		"strictPropertyInitialization": false,
+		"strictPropertyInitialization": false
 	},
-	"include": ["./src/*"],
-	"exclude": ["node_modules"]
+	"include": ["./src/*"]
 }

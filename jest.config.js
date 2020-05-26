@@ -8,9 +8,6 @@ module.exports = {
 	// Stop running tests after `n` failures
 	bail: true,
 
-	// Respect "browser" field in package.json when resolving modules
-	// browser: false,
-
 	// The directory where Jest should store its cached dependency information
 	// cacheDirectory: "/private/var/folders/6b/v9f2b9vn4zd1167ftn_v31dh0000gn/T/jest_dx",
 

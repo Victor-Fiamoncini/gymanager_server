@@ -1,10 +1,10 @@
 process.env.PORT = '3333'
-process.env.APP_URL = 'http://localhost:3333'
+process.env.APP_URL = `http://localhost:${process.env.PORT}`
 process.env.NODE_ENV = 'development'
 process.env.CLIENT_HOST = 'http://localhost:8080'
 
 process.env.DB_HOST = 'localhost'
-process.env.DB_NAME = 'gym_manager'
+process.env.DB_NAME = 'gym_manager_test'
 process.env.DB_USER = 'root'
 process.env.DB_PASS = ''
 process.env.DB_PORT = '3306'

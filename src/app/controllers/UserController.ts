@@ -27,23 +27,23 @@ class UserController {
 	}
 
 	public async update(req: AuthRequest, res: Response) {
-		// if (Number(req.params.id) !== req.userId) {
-		// 	return res
-		// 		.status(401)
-		// 		.json({ error: errorMessages.users.session.unauthorized })
-		// }
+		if (Number(req.params.id) !== req.userId) {
+			return res
+				.status(401)
+				.json({ error: errorMessages.users.session.unauthorized })
+		}
 
-		// const userRepository = getCustomRepository(UserRepository)
-		// const user = await userRepository.findOne(req.userId)
+		const userRepository = getCustomRepository(UserRepository)
+		const user = await userRepository.findOne(req.userId)
 
-		// if (!user) {
-		// 	return res.status(404).json({ error: errorMessages.users.notFound })
-		// }
+		if (!user) {
+			return res.status(404).json({ error: errorMessages.users.notFound })
+		}
 
-		// delete req.body.confirmPassword
+		delete req.body.confirmPassword
 		// await userRepository.updateById(req.userId, ...user, req.body)
 
-		// return res.status(200).json({ message: successMessages.users.updated })
+		return res.status(200).json({ message: successMessages.users.updated })
 	}
 }
 
