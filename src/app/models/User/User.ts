@@ -46,6 +46,9 @@ export default class User extends BaseEntity {
 
 	@BeforeUpdate()
 	public async beforeUpdate() {
+		console.log(this.password)
+		console.log('AQUIIII')
+
 		if (this.password) {
 			this.password = await this.encrypt(this.password)
 		}

@@ -1,16 +1,24 @@
-const { resolve } = require('path')
-const { config } = require('dotenv')
+import './src/bootstrap'
 
-config({ path: resolve(__dirname, '.env') })
-
-const { DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT } = process.env
+const {
+	DB_HOST,
+	DB_NAME,
+	DB_USER,
+	DB_PASS,
+	DB_PORT,
+	DB_TEST,
+	NODE_ENV,
+} = process.env
 
 const dbConfig = {}
+
+NODE_ENV === 'development'
+	? (dbConfig.database = DB_TEST)
+	: (dbConfig.database = DB_NAME)
 
 dbConfig.type = 'mysql'
 dbConfig.host = DB_HOST
 dbConfig.port = DB_PORT
-dbConfig.database = DB_NAME
 dbConfig.username = DB_USER
 dbConfig.password = DB_PASS
 dbConfig.logging = false

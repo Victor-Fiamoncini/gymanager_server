@@ -1,5 +1,6 @@
 import 'reflect-metadata'
 import express, { Application } from 'express'
+import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
 import { createConnection, Connection } from 'typeorm'
@@ -14,6 +15,7 @@ export default class App {
 	public constructor() {
 		this.app = express()
 
+		this.configs()
 		this.middlewares()
 		this.database()
 	}
@@ -22,12 +24,17 @@ export default class App {
 		return this.app
 	}
 
+	private configs(): void {
+		this.app.disable('x-powered-by')
+	}
+
 	private middlewares(): void {
 		const { CLIENT_HOST, FILE_URL_PREFIX } = process.env
 
 		this.app.use(express.json())
 		this.app.use(morgan('dev'))
 		this.app.use(cors({ origin: CLIENT_HOST }))
+		this.app.use(helmet())
 		this.app.use(
 			`/${FILE_URL_PREFIX}`,
 			express.static(resolve(__dirname, '..', 'tmp', 'uploads'))

@@ -7,6 +7,10 @@ export default class UserRepository extends Repository<User> {
 		return await this.manager.create(User, dto).save()
 	}
 
+	// public async updateById(id: number, existingProperties: object, dto: object) {
+	// 	return await this.manager.update({ id }, existingProperties, dto)
+	// }
+
 	public async findByEmail(email: string) {
 		return await this.findOne(
 			{ email },

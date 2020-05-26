@@ -5,6 +5,7 @@ build/
 
 temp/uploads/*
 
+env.ts
 *.env
 *.DS_Store
 *.sqlite

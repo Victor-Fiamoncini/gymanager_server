@@ -27,7 +27,7 @@ export default (req: AuthRequest, res: Response, next: NextFunction) => {
 	try {
 		const decoded: any = jwt.verify(token, secret)
 
-		req.userId = decoded.id.toString()
+		req.userId = decoded.id
 		return next()
 	} catch (err) {
 		return res.status(401).json({ error: 'Invalid token' })
