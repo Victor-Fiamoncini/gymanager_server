@@ -10,7 +10,7 @@ export default class UserRepository extends Repository<User> {
 	public async findByEmail(email: string) {
 		return await this.findOne(
 			{ email },
-			{ select: ['name', 'email', 'password'] }
+			{ select: ['id', 'name', 'email', 'password'] }
 		)
 	}
 }

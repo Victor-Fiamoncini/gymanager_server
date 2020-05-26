@@ -3,6 +3,7 @@ import { getCustomRepository } from 'typeorm'
 
 import UserRepository from '../models/User/UserRepository'
 import errorMessages from '../config/messages/errors'
+import { AuthRequest } from '../types'
 
 class UserController {
 	public async store(req: Request, res: Response) {
@@ -23,13 +24,23 @@ class UserController {
 		return res.status(201).json(user)
 	}
 
-	public async update(req: Request, res: Response) {
-		// const { id } = req.params
-		// const user = await User.findOne(id)
-		// if (!user) {
-		// 	return res.status(400).json({ error: errorMessages.users.notFound })
-		// }
-		// return res.status(200).json(user)
+	public async update(req: AuthRequest, res: Response) {
+		const { id } = req.params
+
+		if (id !== req.userId) {
+			return res
+				.status(401)
+				.json({ error: errorMessages.users.session.unauthorized })
+		}
+
+		const userRepository = getCustomRepository(UserRepository)
+		const user = await userRepository.findOne(id)
+
+		if (!user) {
+			return res.status(404).json({ error: errorMessages.users.notFound })
+		}
+
+		return res.status(200).json(user)
 	}
 }
 
