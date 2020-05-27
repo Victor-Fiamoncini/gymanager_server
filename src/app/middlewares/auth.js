@@ -1,9 +1,6 @@
-import { Response, NextFunction } from 'express'
-import jwt, { Secret } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
-import { AuthRequest } from '../types'
-
-export default (req: AuthRequest, res: Response, next: NextFunction) => {
+export default (req, res, next) => {
 	const { authorization } = req.headers
 
 	if (!authorization) {
@@ -22,12 +19,10 @@ export default (req: AuthRequest, res: Response, next: NextFunction) => {
 		return res.status(401).json({ error: 'Malformatted token' })
 	}
 
-	const secret: Secret = process.env.JWT_AUTH_SECRET!
-
 	try {
-		const decoded: any = jwt.verify(token, secret)
+		const { id } = jwt.verify(token, process.env.JWT_AUTH_SECRET)
 
-		req.userId = decoded.id
+		req.userId = id
 		return next()
 	} catch (err) {
 		return res.status(401).json({ error: 'Invalid token' })

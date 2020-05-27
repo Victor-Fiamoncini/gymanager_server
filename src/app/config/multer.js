@@ -1,20 +1,18 @@
-import { Request } from 'express'
+import multer from 'multer'
 import { resolve } from 'path'
 import { randomBytes } from 'crypto'
-import multer, { FileFilterCallback } from 'multer'
 
 const pathToUploads = resolve(__dirname, '..', '..', '..', 'temp', 'uploads')
-
 const allowedMimes = ['image/jpeg', 'image/pjpeg', 'image/png']
 
 export default {
 	dest: pathToUploads,
 	storage: multer.diskStorage({
-		destination: (req, file: Express.Multer.File, callback) => {
+		destination: (req, file, callback) => {
 			callback(null, pathToUploads)
 		},
-		filename: (req: Request, file: Express.Multer.File, callback) => {
-			randomBytes(16, (err: Error, buf: Buffer) => {
+		filename: (req, file, callback) => {
+			randomBytes(16, (err, buf) => {
 				if (err) {
 					callback(err, '')
 				}
@@ -27,11 +25,7 @@ export default {
 	limits: {
 		fileSize: 2 * 1024 * 1024,
 	},
-	fileFilter: (
-		req: Request,
-		file: Express.Multer.File,
-		callback: FileFilterCallback
-	) => {
+	fileFilter: (req, file, callback) => {
 		if (allowedMimes.includes(file.mimetype)) {
 			callback(null, true)
 		} else {

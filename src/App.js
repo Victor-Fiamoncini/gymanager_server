@@ -1,18 +1,14 @@
-import 'reflect-metadata'
-import express, { Application } from 'express'
+import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
-import { createConnection, Connection } from 'typeorm'
 import { resolve } from 'path'
 
 import routes from './routes'
 import { error } from './app/middlewares'
 
 export default class App {
-	private app: Application
-
-	public constructor() {
+	constructor() {
 		this.app = express()
 
 		this.configs()
@@ -20,15 +16,15 @@ export default class App {
 		this.database()
 	}
 
-	public get _app(): Application {
+	get _app() {
 		return this.app
 	}
 
-	private configs(): void {
+	configs() {
 		this.app.disable('x-powered-by')
 	}
 
-	private middlewares(): void {
+	middlewares() {
 		const { CLIENT_HOST, FILE_URL_PREFIX, NODE_ENV } = process.env
 
 		if (NODE_ENV === 'production') {
@@ -48,7 +44,5 @@ export default class App {
 		this.app.use(error)
 	}
 
-	private async database(): Promise<Connection> {
-		return await createConnection()
-	}
+	async database() {}
 }

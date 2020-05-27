@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response } from 'express'
 import Joi from 'joi'
 import validate from '../utils/validate'
 
 class UserValidator {
-	async store(req: Request, res: Response, next: NextFunction) {
+	async store(req, res, next) {
 		const schema = Joi.object().keys({
 			name: Joi.string().min(2).required(),
 			email: Joi.string().email().required(),
@@ -13,7 +12,7 @@ class UserValidator {
 		await validate(res, next, req.body, schema)
 	}
 
-	async update(req: Request, res: Response, next: NextFunction) {
+	async update(req, res, next) {
 		const schema = Joi.object().keys({
 			name: Joi.string().min(2).required(),
 			email: Joi.string().email().required(),
