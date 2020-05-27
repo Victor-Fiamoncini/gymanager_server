@@ -11,6 +11,7 @@ module.exports = {
 		module: true,
 		export: true,
 		__dirname: true,
+		require: true,
 	},
 	parserOptions: {
 		ecmaVersion: 2018,

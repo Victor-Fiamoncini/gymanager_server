@@ -1,3 +1,8 @@
+const { config } = require('dotenv')
+const { resolve } = require('path')
+
+config({ path: resolve(__dirname, '..', '..', '..', '.env') })
+
 const {
 	DB_HOST,
 	DB_NAME,
@@ -8,14 +13,14 @@ const {
 	NODE_ENV,
 } = process.env
 
-export default {
+module.exports = {
 	host: DB_HOST,
 	username: DB_USER,
 	password: DB_PASS,
-	database: NODE_ENV === 'test' ? DB_TEST : DB_NAME,
+	database:
+		NODE_ENV === 'test' || NODE_ENV === 'development' ? DB_TEST : DB_NAME,
 	dialect: 'mysql',
 	port: DB_PORT,
-	operatorsAliases: false,
 	logging: false,
 	define: {
 		timestamps: true,
