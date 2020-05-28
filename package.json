@@ -11,9 +11,7 @@
     "dev": "NODE_ENV=development nodemon ./src/server",
     "build": "babel ./src --out-dir build --source-maps",
     "start": "NODE_ENV=production babel-node ./build/server",
-    "pretest": "NODE_ENV=test sequelize db:migrate",
-    "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test sequelize db:migrate:undo:all"
+    "test": "NODE_ENV=test jest --forceExit"
   },
   "dependencies": {
     "bcrypt": "^4.0.1",

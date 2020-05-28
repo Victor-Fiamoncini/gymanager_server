@@ -1,6 +1,7 @@
 import request from 'supertest'
-import { _app } from '../bootstrap'
-import truncate from '../truncate'
+
+import { _app } from '../utils/bootstrap'
+import truncate from '../utils/truncate'
 
 describe('Users', () => {
 	beforeAll(async () => {
@@ -14,8 +15,6 @@ describe('Users', () => {
 			password: '1234567',
 		})
 
-		console.log(res.body)
-
 		expect(res.status).toBe(201)
 		expect(res.body).toEqual(
 			expect.objectContaining({
@@ -23,5 +22,9 @@ describe('Users', () => {
 				email: 'victor.fiamoncini@gmail.com',
 			})
 		)
+	})
+
+	afterAll(async () => {
+		await truncate()
 	})
 })
