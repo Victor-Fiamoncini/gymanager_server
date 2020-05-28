@@ -4,6 +4,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import { resolve } from 'path'
 
+import './app/database'
 import routes from './routes'
 import { error } from './app/middlewares'
 
@@ -13,7 +14,6 @@ export default class App {
 
 		this.configs()
 		this.middlewares()
-		this.database()
 	}
 
 	get _app() {
@@ -43,6 +43,4 @@ export default class App {
 		this.app.use(routes)
 		this.app.use(error)
 	}
-
-	async database() {}
 }

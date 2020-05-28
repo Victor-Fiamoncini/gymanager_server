@@ -9,7 +9,7 @@ const router = Router()
 /**
  * Public Sessions
  */
-router.post('/sessions', middlewares.async(controllers.SessionController.store))
+// router.post('/sessions', middlewares.async(controllers.SessionController.store))
 
 /**
  * Public Users
@@ -23,28 +23,28 @@ router.post(
 /**
  * Protected routes
  */
-router.use(middlewares.auth)
+// router.use(middlewares.auth)
 
 /**
  * Protected Sessions
  */
-router.get(
-	'/sessions',
-	middlewares.async(controllers.SessionController.refresh)
-)
+// router.get(
+// 	'/sessions',
+// 	middlewares.async(controllers.SessionController.refresh)
+// )
 
 /**
  * Protected Users
  */
-router.put(
-	'/users/:id',
-	validators.UserValidator.update,
-	middlewares.async(controllers.UserController.update)
-)
-router.put(
-	'/users/:id/photo',
-	middlewares.upload.single('photo'),
-	middlewares.async(controllers.UserController.update)
-)
+// router.put(
+// 	'/users/:id',
+// 	validators.UserValidator.update,
+// 	middlewares.async(controllers.UserController.update)
+// )
+// router.put(
+// 	'/users/:id/photo',
+// 	middlewares.upload.single('photo'),
+// 	middlewares.async(controllers.UserController.update)
+// )
 
 export default router
