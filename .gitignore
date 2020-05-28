@@ -2,10 +2,11 @@
 .vscode/
 node_modules/
 build/
+coverage/
 
 temp/uploads/*
 
-env.ts
+env.js
 *.env
 *.DS_Store
 *.sqlite

@@ -3,7 +3,8 @@ module.exports = {
 		browser: true,
 		es6: true,
 	},
-	extends: 'eslint:recommended',
+	plugins: ['jest'],
+	extends: ['eslint:recommended', 'plugin:jest/recommended'],
 	globals: {
 		Atomics: 'readonly',
 		SharedArrayBuffer: 'readonly',
