@@ -36,11 +36,16 @@ router.get(
 /**
  * Protected Users
  */
-// router.put(
-// 	'/users/:id',
-// 	validators.UserValidator.update,
-// 	middlewares.async(controllers.UserController.update)
-// )
+router.get('/users/:id', middlewares.async(controllers.UserController.show))
+router.put(
+	'/users/:id',
+	validators.UserValidator.update,
+	middlewares.async(controllers.UserController.update)
+)
+router.delete(
+	'/users/:id',
+	middlewares.async(controllers.UserController.destroy)
+)
 // router.put(
 // 	'/users/:id/photo',
 // 	middlewares.upload.single('photo'),

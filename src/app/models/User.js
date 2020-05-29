@@ -8,7 +8,8 @@ export default class User extends Model {
 			{
 				name: DataTypes.STRING,
 				email: DataTypes.STRING,
-				password: DataTypes.STRING,
+				password: DataTypes.VIRTUAL,
+				password_hash: DataTypes.STRING,
 				photo: DataTypes.STRING,
 				photo_url: DataTypes.STRING,
 			},
@@ -19,7 +20,15 @@ export default class User extends Model {
 
 		this.addHook('beforeSave', async (user) => {
 			if (user.password) {
-				user.password = await bcrypt.hash(user.password, 10)
+				user.password_hash = await bcrypt.hash(user.password, 10)
+			}
+		})
+
+		this.addHook('beforeUpdate', async (user) => {
+			console.log(user.password)
+
+			if (user.password) {
+				user.password_hash = await bcrypt.hash(user.password, 10)
 			}
 		})
 
@@ -27,7 +36,7 @@ export default class User extends Model {
 	}
 
 	async matchPassword(password) {
-		return await bcrypt.compare(password, this.password)
+		return await bcrypt.compare(password, this.password_hash)
 	}
 
 	generateToken() {

@@ -1,19 +1,62 @@
-import User from '../models/User'
-
-import errorMessages from '../config/messages/errors'
+import { User } from '../models'
+import errors from '../config/messages/errors'
+import success from '../config/messages/success'
 
 class UserController {
-	async store(req, res) {
-		const { name, email, password } = req.body
-
-		if (await User.findOne({ where: { email } })) {
-			return res.status(400).json({ error: errorMessages.users.alreadyExists })
+	async show(req, res) {
+		if (req.params.id !== req.userId) {
+			return res.status(401).json({ error: errors.sessions.unauthorized })
 		}
 
-		const user = await User.create({ name, email, password })
+		const user = await User.findOne({ where: { id: req.params.id } })
 
-		user.password = undefined
-		return res.status(201).json(user)
+		if (!user) {
+			return res.status(404).json({ error: errors.users.notFound })
+		}
+
+		const { id, name, email, photo_url } = user
+
+		return res.status(200).json({ id, name, email, photo_url })
+	}
+
+	async store(req, res) {
+		if (await User.findOne({ where: { email: req.body.email } })) {
+			return res.status(400).json({ error: errors.users.alreadyExists })
+		}
+
+		const { id, name, email, photo_url } = await User.create(req.body)
+
+		return res.status(201).json({ id, name, email, photo_url })
+	}
+
+	async update(req, res) {
+		if (req.params.id !== req.userId) {
+			return res.status(401).json({ error: errors.sessions.unauthorized })
+		}
+
+		const user = await User.findOne({ where: { id: req.params.id } })
+
+		if (!user) {
+			return res.status(404).json({ error: errors.users.notFound })
+		}
+
+		const { id, name, email, photo_url } = await user.update(req.body, {
+			where: { id: req.params.id },
+		})
+
+		return res.status(200).json({ id, name, email, photo_url })
+	}
+
+	async destroy(req, res) {
+		const { id } = req.params
+
+		if (id !== req.userId) {
+			return res.status(401).json({ error: errors.sessions.unauthorized })
+		}
+
+		await User.destroy({ where: { id } })
+
+		return res.status(200).json({ success: success.users.deleted })
 	}
 }
 

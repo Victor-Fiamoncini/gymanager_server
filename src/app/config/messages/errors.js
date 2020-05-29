@@ -10,11 +10,14 @@ export default {
 		birthdate: {
 			isDate: 'Formato de data inválido',
 		},
-		session: {
-			unauthorized: 'Sem permissão',
-			invalidCredentials: 'Credenciais inválidas',
-		},
 		notFound: 'Usuário não encontrado',
 		alreadyExists: 'Esse usuário já está cadastrado',
+	},
+	sessions: {
+		unauthorized: 'Sem permissão',
+		invalidCredentials: 'Credenciais inválidas',
+		noToken: 'Token de autenticação não informado',
+		malformattedToken: 'Token de autenticação desformatado',
+		invalidToken: 'Token de autenticação inválido',
 	},
 }
