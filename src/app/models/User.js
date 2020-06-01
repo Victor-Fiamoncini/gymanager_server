@@ -25,8 +25,6 @@ export default class User extends Model {
 		})
 
 		this.addHook('beforeUpdate', async (user) => {
-			console.log(user.password)
-
 			if (user.password) {
 				user.password_hash = await bcrypt.hash(user.password, 10)
 			}

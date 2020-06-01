@@ -9,7 +9,6 @@ class UserController {
 		}
 
 		const user = await User.findOne({ where: { id: req.params.id } })
-
 		if (!user) {
 			return res.status(404).json({ error: errors.users.notFound })
 		}
@@ -34,13 +33,17 @@ class UserController {
 			return res.status(401).json({ error: errors.sessions.unauthorized })
 		}
 
-		const user = await User.findOne({ where: { id: req.params.id } })
-
-		if (!user) {
+		const userById = await User.findOne({ where: { id: req.params.id } })
+		if (!userById) {
 			return res.status(404).json({ error: errors.users.notFound })
 		}
 
-		const { id, name, email, photo_url } = await user.update(req.body, {
+		const userByEmail = await User.findOne({ where: { email: req.body.email } })
+		if (userByEmail && userByEmail.email !== userById.email) {
+			return res.status(404).json({ error: errors.users.alreadyExists })
+		}
+
+		const { id, name, email, photo_url } = await userById.update(req.body, {
 			where: { id: req.params.id },
 		})
 
@@ -57,6 +60,23 @@ class UserController {
 		await User.destroy({ where: { id } })
 
 		return res.status(200).json({ success: success.users.deleted })
+	}
+
+	async updatePhoto(req, res) {
+		if (req.params.id !== req.userId) {
+			return res.status(401).json({ error: errors.sessions.unauthorized })
+		}
+
+		const user = await User.findOne({ where: { id: req.params.id } })
+		if (!user) {
+			return res.status(404).json({ error: errors.users.notFound })
+		}
+
+		const { id, name, email, photo_url } = await user.update(req.body, {
+			where: { id: req.params.id },
+		})
+
+		return res.status(200).json({ id, name, email, photo_url })
 	}
 }
 

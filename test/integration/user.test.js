@@ -42,17 +42,23 @@ describe('Users', () => {
 		})
 
 		const res = await request(_app)
-			.put('/users')
+			.put(`/users/${user.body.user.id}`)
 			.set('Authorization', `Bearer ${user.body.token}`)
 			.send({
 				name: 'Victor Beninca',
-				email: 'victor.fiamoncini@gmail.com',
+				email: 'victor.fiamoncini@hotmail.com',
 				password: '1234567',
 			})
 
-		console.log(res.body)
-
 		expect(res.status).toBe(200)
+		expect(res.body).toEqual(
+			expect.objectContaining({
+				id: 1,
+				name: 'Victor Beninca',
+				email: 'victor.fiamoncini@hotmail.com',
+				photo_url: null,
+			})
+		)
 	})
 
 	afterAll(async () => {
