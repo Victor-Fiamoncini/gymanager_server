@@ -14,7 +14,6 @@ class UserController {
 		}
 
 		const { id, name, email, photo_url } = user
-
 		return res.status(200).json({ id, name, email, photo_url })
 	}
 
@@ -62,7 +61,7 @@ class UserController {
 		return res.status(200).json({ success: success.users.deleted })
 	}
 
-	async updatePhoto(req, res) {
+	async storePhoto(req, res) {
 		if (req.params.id !== req.userId) {
 			return res.status(401).json({ error: errors.sessions.unauthorized })
 		}
@@ -72,11 +71,14 @@ class UserController {
 			return res.status(404).json({ error: errors.users.notFound })
 		}
 
-		const { id, name, email, photo_url } = await user.update(req.body, {
-			where: { id: req.params.id },
-		})
+		if (!req.file) {
+			return res.status(404).json({ error: errors.users.photo.required })
+		}
 
-		return res.status(200).json({ id, name, email, photo_url })
+		user.photo = req.file.filename
+		await user.save()
+
+		return res.status(200).json({ photo_url: user.photo_url })
 	}
 }
 

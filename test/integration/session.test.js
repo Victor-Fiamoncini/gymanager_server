@@ -9,19 +9,15 @@ describe('Sessions', () => {
 		await truncate()
 	})
 
-	beforeEach(async () => {
-		await User.destroy({ truncate: true, force: true })
-	})
-
 	it('should get a valid/payloaded JWT token with valid credentials', async () => {
 		await User.create({
 			name: 'Victor',
-			email: 'victor.fiamoncini@gmail.com',
+			email: 'victor@gmail.com',
 			password: '1234567',
 		})
 
 		const res = await request(_app).post('/sessions').send({
-			email: 'victor.fiamoncini@gmail.com',
+			email: 'victor@gmail.com',
 			password: '1234567',
 		})
 
@@ -30,14 +26,8 @@ describe('Sessions', () => {
 	})
 
 	it('should get a user from payloaded JWT token', async () => {
-		await User.create({
-			name: 'Victor',
-			email: 'victor.fiamoncini@gmail.com',
-			password: '1234567',
-		})
-
 		const user = await request(_app).post('/sessions').send({
-			email: 'victor.fiamoncini@gmail.com',
+			email: 'victor@gmail.com',
 			password: '1234567',
 		})
 
@@ -47,6 +37,7 @@ describe('Sessions', () => {
 
 		expect(res.status).toBe(200)
 		expect(res.body.name).toBe('Victor')
+		expect(res.body.email).toBe('victor@gmail.com')
 	})
 
 	afterAll(async () => {

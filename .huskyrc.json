@@ -1,0 +1,6 @@
+{
+  "hooks": {
+		"pre-commit": "lint-staged && yarn test",
+		"pre-push": "--ext js --fix && yarn test"
+	}
+}

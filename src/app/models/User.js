@@ -22,6 +22,12 @@ export default class User extends Model {
 			if (user.password) {
 				user.password_hash = await bcrypt.hash(user.password, 10)
 			}
+
+			if (user.photo) {
+				const { APP_URL, FILE_URL_PREFIX } = process.env
+
+				user.photo_url = `${APP_URL}/${FILE_URL_PREFIX}/${user.photo}`
+			}
 		})
 
 		this.addHook('beforeUpdate', async (user) => {

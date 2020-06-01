@@ -10,6 +10,9 @@ export default {
 		birthdate: {
 			isDate: 'Formato de data inválido',
 		},
+		photo: {
+			required: 'Por favor, anexe uma foto',
+		},
 		notFound: 'Usuário não encontrado',
 		alreadyExists: 'Esse usuário já está cadastrado',
 	},

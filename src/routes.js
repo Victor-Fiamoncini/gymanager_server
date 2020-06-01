@@ -46,10 +46,10 @@ router.delete(
 	'/users/:id',
 	middlewares.async(controllers.UserController.destroy)
 )
-// router.put(
-// 	'/users/:id/photo',
-// 	middlewares.upload.single('photo'),
-// 	middlewares.async(controllers.UserController.update)
-// )
+router.put(
+	'/users/:id/photo',
+	middlewares.upload.single('photo'),
+	middlewares.async(controllers.UserController.storePhoto)
+)
 
 export default router
