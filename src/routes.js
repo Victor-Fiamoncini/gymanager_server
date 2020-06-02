@@ -52,4 +52,21 @@ router.put(
 	middlewares.async(controllers.UserController.storePhoto)
 )
 
+/**
+ * Protected Students
+ */
+router.get(
+	'/students/:id',
+	middlewares.async(controllers.StudentController.show)
+)
+router.post('/students', middlewares.async(controllers.StudentController.store))
+router.put(
+	'/students/:id',
+	middlewares.async(controllers.StudentController.update)
+)
+router.delete(
+	'/students/:id',
+	middlewares.async(controllers.StudentController.destroy)
+)
+
 export default router

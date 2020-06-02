@@ -23,4 +23,8 @@ export default {
 		malformattedToken: 'Token de autenticação desformatado',
 		invalidToken: 'Token de autenticação inválido',
 	},
+	students: {
+		notFound: 'Aluno não encontrado',
+		alreadyExists: 'Esse aluno já está cadastrado',
+	},
 }
