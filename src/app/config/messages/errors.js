@@ -25,6 +25,7 @@ export default {
 	},
 	students: {
 		notFound: 'Aluno não encontrado',
+		notFoundIndex: 'Alunos não encontrados',
 		alreadyExists: 'Esse aluno já está cadastrado',
 	},
 }

@@ -1,9 +1,27 @@
+import { Op } from 'sequelize'
 import { Student } from '../models'
 
 import errors from '../config/messages/errors'
 import success from '../config/messages/success'
 
 class StudentController {
+	async index(req, res) {
+		const { name = '', page = 1 } = req.query
+
+		const students = await Student.findAll({
+			where: { name: { [Op.like]: `%${name}%` } },
+			attributes: ['id', 'name', 'age', 'weight', 'height'],
+			offset: (page - 1) * 10,
+			limit: 10,
+		})
+
+		if (!students) {
+			return res.status(404).json({ error: errors.students.notFoundIndex })
+		}
+
+		return res.status(200).json(students)
+	}
+
 	async show(req, res) {
 		const { id } = req.params
 
@@ -23,7 +41,7 @@ class StudentController {
 		const { email } = req.body
 
 		if (await Student.findOne({ where: { email } })) {
-			return res.status(404).json({ error: errors.students.notFound })
+			return res.status(404).json({ error: errors.students.alreadyExists })
 		}
 
 		const { id, name, age, height, weight } = await Student.create(req.body)

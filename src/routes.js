@@ -55,6 +55,7 @@ router.put(
 /**
  * Protected Students
  */
+router.get('/students/', middlewares.async(controllers.StudentController.index))
 router.get(
 	'/students/:id',
 	middlewares.async(controllers.StudentController.show)
