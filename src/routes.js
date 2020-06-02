@@ -59,9 +59,14 @@ router.get(
 	'/students/:id',
 	middlewares.async(controllers.StudentController.show)
 )
-router.post('/students', middlewares.async(controllers.StudentController.store))
+router.post(
+	'/students',
+	validators.StudentValidator.store,
+	middlewares.async(controllers.StudentController.store)
+)
 router.put(
 	'/students/:id',
+	validators.StudentValidator.update,
 	middlewares.async(controllers.StudentController.update)
 )
 router.delete(
