@@ -1,6 +1,7 @@
 import { Op } from 'sequelize'
 import { Student } from '../models'
 
+import customMessage from '../config/messages/customMessage'
 import { students as studentsErrors } from '../config/messages/errors'
 import { students as studentsSuccess } from '../config/messages/success'
 
@@ -16,7 +17,7 @@ class StudentController {
 		})
 
 		if (!students) {
-			return res.status(404).json({ error: studentsErrors.notFoundIndex })
+			return res.status(404).json(customMessage(studentsErrors.notFoundIndex))
 		}
 
 		return res.status(200).json(students)
@@ -31,7 +32,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json({ error: studentsErrors.notFound })
+			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
 		}
 
 		return res.status(200).json(student)
@@ -41,7 +42,9 @@ class StudentController {
 		const { email } = req.body
 
 		if (await Student.findOne({ where: { email } })) {
-			return res.status(404).json({ error: studentsErrors.alreadyExists })
+			return res
+				.status(404)
+				.json(customMessage(studentsErrors.alreadyExists, 'email'))
 		}
 
 		const { id, name, age, height, weight } = await Student.create(req.body)
@@ -53,7 +56,7 @@ class StudentController {
 		const studentById = await Student.findByPk(req.params.id)
 
 		if (!studentById) {
-			return res.status(404).json({ error: studentsErrors.notFound })
+			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
 		}
 
 		const studentByEmail = await Student.findOne({
@@ -61,7 +64,9 @@ class StudentController {
 		})
 
 		if (studentByEmail && studentById.email !== studentByEmail.email) {
-			return res.status(404).json({ error: studentsErrors.alreadyExists })
+			return res
+				.status(404)
+				.json(customMessage(studentsErrors.alreadyExists, 'email'))
 		}
 
 		const { id, name, age, height, weight } = await studentById.update(
@@ -77,7 +82,7 @@ class StudentController {
 	async destroy(req, res) {
 		const student = await Student.findByPk(req.params.id)
 		if (!student) {
-			return res.status(404).json({ error: studentsErrors.notFound })
+			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
 		}
 
 		await student.destroy()
