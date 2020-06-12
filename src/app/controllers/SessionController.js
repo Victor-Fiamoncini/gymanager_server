@@ -1,4 +1,6 @@
 import { User } from '../models'
+
+import customMessage from '../messages/customMessage'
 import { sessions, users } from '../messages/errors'
 
 class SessionController {
@@ -8,15 +10,11 @@ class SessionController {
 		const user = await User.findOne({ where: { email } })
 
 		if (!user) {
-			return res.status(404).json({
-				error: users.notFound,
-			})
+			return res.status(404).json(customMessage(users.notFound))
 		}
 
 		if (!(await user.matchPassword(password))) {
-			return res.status(401).json({
-				error: sessions.invalidCredentials,
-			})
+			return res.status(401).json(customMessage(sessions.invalidCredentials))
 		}
 
 		user.password_hash = undefined
@@ -31,7 +29,7 @@ class SessionController {
 		const user = await User.findByPk(req.userId)
 
 		if (!user) {
-			return res.status(404).json({ error: users.notFound })
+			return res.status(404).json(customMessage(users.notFound))
 		}
 
 		user.password_hash = undefined
