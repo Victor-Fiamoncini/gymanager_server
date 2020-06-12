@@ -10,37 +10,37 @@ import { error } from './app/middlewares'
 
 export default class App {
 	constructor() {
-		this.app = express()
+		this.express = express()
 
 		this.configs()
 		this.middlewares()
 	}
 
-	get _app() {
-		return this.app
+	get app() {
+		return this.express
 	}
 
 	configs() {
-		this.app.disable('x-powered-by')
+		this.express.disable('x-powered-by')
 	}
 
 	middlewares() {
 		const { CLIENT_HOST, FILE_URL_PREFIX, NODE_ENV } = process.env
 
 		if (NODE_ENV === 'production') {
-			this.app.use(cors({ origin: CLIENT_HOST }))
-			this.app.use(helmet())
+			this.express.use(cors({ origin: CLIENT_HOST }))
+			this.express.use(helmet())
 		}
 
-		this.app.use(express.json())
-		this.app.use(morgan('dev'))
+		this.express.use(express.json())
+		this.express.use(morgan('dev'))
 
-		this.app.use(
+		this.express.use(
 			`/${FILE_URL_PREFIX}`,
 			express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
 		)
 
-		this.app.use(routes)
-		this.app.use(error)
+		this.express.use(routes)
+		this.express.use(error)
 	}
 }

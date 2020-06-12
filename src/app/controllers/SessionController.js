@@ -1,5 +1,5 @@
 import { User } from '../models'
-import errors from '../config/messages/errors'
+import { sessions, users } from '../config/messages/errors'
 
 class SessionController {
 	async store(req, res) {
@@ -9,13 +9,13 @@ class SessionController {
 
 		if (!user) {
 			return res.status(404).json({
-				error: errors.users.notFound,
+				error: users.notFound,
 			})
 		}
 
 		if (!(await user.matchPassword(password))) {
 			return res.status(401).json({
-				error: errors.sessions.invalidCredentials,
+				error: sessions.invalidCredentials,
 			})
 		}
 
@@ -31,7 +31,7 @@ class SessionController {
 		const user = await User.findByPk(req.userId)
 
 		if (!user) {
-			return res.status(404).json({ error: errors.users.notFound })
+			return res.status(404).json({ error: users.notFound })
 		}
 
 		user.password_hash = undefined

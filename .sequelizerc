@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 
 module.exports = {
-	config: resolve(__dirname, 'src', 'app', 'config', 'database.js'),
+	config: resolve(__dirname, 'src', 'app', 'config', 'sequelize.js'),
 	'models-path': resolve(__dirname, 'src', 'app', 'models'),
 	'seeders-path': resolve(__dirname, 'src', 'app', 'database', 'seeders'),
 	'migrations-path': resolve(__dirname, 'src', 'app', 'database', 'migrations'),

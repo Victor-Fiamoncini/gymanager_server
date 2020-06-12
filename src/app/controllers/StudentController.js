@@ -1,8 +1,8 @@
 import { Op } from 'sequelize'
 import { Student } from '../models'
 
-import errors from '../config/messages/errors'
-import success from '../config/messages/success'
+import { students as studentsErrors } from '../config/messages/errors'
+import { students as studentsSuccess } from '../config/messages/success'
 
 class StudentController {
 	async index(req, res) {
@@ -16,7 +16,7 @@ class StudentController {
 		})
 
 		if (!students) {
-			return res.status(404).json({ error: errors.students.notFoundIndex })
+			return res.status(404).json({ error: studentsErrors.notFoundIndex })
 		}
 
 		return res.status(200).json(students)
@@ -31,7 +31,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json({ error: errors.students.notFound })
+			return res.status(404).json({ error: studentsErrors.notFound })
 		}
 
 		return res.status(200).json(student)
@@ -41,7 +41,7 @@ class StudentController {
 		const { email } = req.body
 
 		if (await Student.findOne({ where: { email } })) {
-			return res.status(404).json({ error: errors.students.alreadyExists })
+			return res.status(404).json({ error: studentsErrors.alreadyExists })
 		}
 
 		const { id, name, age, height, weight } = await Student.create(req.body)
@@ -53,7 +53,7 @@ class StudentController {
 		const studentById = await Student.findByPk(req.params.id)
 
 		if (!studentById) {
-			return res.status(404).json({ error: errors.students.notFound })
+			return res.status(404).json({ error: studentsErrors.notFound })
 		}
 
 		const studentByEmail = await Student.findOne({
@@ -61,7 +61,7 @@ class StudentController {
 		})
 
 		if (studentByEmail && studentById.email !== studentByEmail.email) {
-			return res.status(404).json({ error: errors.students.alreadyExists })
+			return res.status(404).json({ error: studentsErrors.alreadyExists })
 		}
 
 		const { id, name, age, height, weight } = await studentById.update(
@@ -77,11 +77,11 @@ class StudentController {
 	async destroy(req, res) {
 		const student = await Student.findByPk(req.params.id)
 		if (!student) {
-			return res.status(404).json({ error: errors.students.notFound })
+			return res.status(404).json({ error: studentsErrors.notFound })
 		}
 
 		await student.destroy()
-		return res.status(200).json({ success: success.students.deleted })
+		return res.status(200).json({ success: studentsSuccess.deleted })
 	}
 }
 

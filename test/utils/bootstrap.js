@@ -1,3 +1,3 @@
 import App from '../../src/App'
 
-export const { _app } = new App()
+export const { app } = new App()

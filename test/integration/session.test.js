@@ -1,6 +1,6 @@
 import request from 'supertest'
 
-import { _app } from '../utils/bootstrap'
+import { app } from '../utils/bootstrap'
 import truncate from '../utils/truncate'
 import { User } from '../../src/app/models'
 
@@ -16,7 +16,7 @@ describe('Sessions', () => {
 			password: '1234567',
 		})
 
-		const res = await request(_app).post('/sessions').send({
+		const res = await request(app).post('/sessions').send({
 			email: 'victor@gmail.com',
 			password: '1234567',
 		})
@@ -26,12 +26,12 @@ describe('Sessions', () => {
 	})
 
 	it('should get a user from payloaded JWT token', async () => {
-		const user = await request(_app).post('/sessions').send({
+		const user = await request(app).post('/sessions').send({
 			email: 'victor@gmail.com',
 			password: '1234567',
 		})
 
-		const res = await request(_app)
+		const res = await request(app)
 			.get('/sessions')
 			.set('Authorization', `Bearer ${user.body.token}`)
 

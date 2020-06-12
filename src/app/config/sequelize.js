@@ -17,8 +17,7 @@ module.exports = {
 	host: DB_HOST,
 	username: DB_USER,
 	password: DB_PASS,
-	database:
-		NODE_ENV === 'test' || NODE_ENV === 'development' ? DB_TEST : DB_NAME,
+	database: NODE_ENV === 'test' ? DB_TEST : DB_NAME,
 	dialect: 'mysql',
 	port: DB_PORT,
 	logging: false,
