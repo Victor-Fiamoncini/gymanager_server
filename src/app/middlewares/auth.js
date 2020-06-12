@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { sessions } from '../config/messages/errors'
+import { sessions } from '../messages/errors'
 
 export default (req, res, next) => {
 	const { authorization } = req.headers

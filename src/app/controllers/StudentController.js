@@ -1,9 +1,9 @@
 import { Op } from 'sequelize'
 import { Student } from '../models'
 
-import customMessage from '../config/messages/customMessage'
-import { students as studentsErrors } from '../config/messages/errors'
-import { students as studentsSuccess } from '../config/messages/success'
+import customMessage from '../messages/customMessage'
+import { students as studentsErrors } from '../messages/errors'
+import { students as studentsSuccess } from '../messages/success'
 
 class StudentController {
 	async index(req, res) {

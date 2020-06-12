@@ -1,8 +1,8 @@
 import { User } from '../models'
 
-import customMessage from '../config/messages/customMessage'
-import { sessions, users as usersErrors } from '../config/messages/errors'
-import { users as usersSuccess } from '../config/messages/success'
+import customMessage from '../messages/customMessage'
+import { sessions, users as usersErrors } from '../messages/errors'
+import { users as usersSuccess } from '../messages/success'
 
 class UserController {
 	async show(req, res) {

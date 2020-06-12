@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import validate from '../utils/validate'
 
-import { users } from '../config/messages/errors'
+import { users } from '../messages/errors'
 
 class UserValidator {
 	async store(req, res, next) {

@@ -1,5 +1,5 @@
 import { User } from '../models'
-import { sessions, users } from '../config/messages/errors'
+import { sessions, users } from '../messages/errors'
 
 class SessionController {
 	async store(req, res) {
