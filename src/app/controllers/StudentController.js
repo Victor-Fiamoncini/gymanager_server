@@ -1,4 +1,3 @@
-import { Op } from 'sequelize'
 import { Student } from '../models'
 
 import customMessage from '../messages/customMessage'
@@ -7,16 +6,10 @@ import { students as studentsSuccess } from '../messages/success'
 
 class StudentController {
 	async index(req, res) {
-		const { name = '', page = 1 } = req.query
-
 		const students = await Student.findAll({
-			where: {
-				name: { [Op.like]: `%${name}%` },
-				user_id: req.userId,
-			},
+			where: { user_id: req.userId },
 			attributes: ['id', 'name', 'email', 'age', 'weight', 'height'],
-			offset: (page - 1) * 10,
-			limit: 10,
+			order: [['created_at', 'DESC']],
 		})
 
 		if (!students) {
