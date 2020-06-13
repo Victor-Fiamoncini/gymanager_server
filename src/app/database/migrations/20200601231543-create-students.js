@@ -30,6 +30,16 @@ module.exports = {
 				type: Sequelize.FLOAT,
 				allowNull: false,
 			},
+			user_id: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'users',
+					key: 'id',
+				},
+				onUpdate: 'CASCADE',
+				onUDelete: 'CASCADE',
+			},
 			created_at: {
 				type: Sequelize.DATE,
 				allowNull: false,
@@ -41,7 +51,7 @@ module.exports = {
 		})
 	},
 
-	down: (queryInterface) => {
+	down: queryInterface => {
 		return queryInterface.dropTable('students')
 	},
 }

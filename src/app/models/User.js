@@ -18,7 +18,7 @@ export default class User extends Model {
 			}
 		)
 
-		this.addHook('beforeSave', async (user) => {
+		this.addHook('beforeSave', async user => {
 			if (user.password) {
 				user.password_hash = await bcrypt.hash(user.password, 10)
 			}
@@ -30,13 +30,20 @@ export default class User extends Model {
 			}
 		})
 
-		this.addHook('beforeUpdate', async (user) => {
+		this.addHook('beforeUpdate', async user => {
 			if (user.password) {
 				user.password_hash = await bcrypt.hash(user.password, 10)
 			}
 		})
 
 		return this
+	}
+
+	static associate(models) {
+		this.hasMany(models.Student, {
+			foreignKey: 'user_id',
+			as: 'students',
+		})
 	}
 
 	async matchPassword(password) {

@@ -1,7 +1,5 @@
 {
   "src/**/*.js": [
-		"eslint --ext js --fix",
-		"yarn test --findRelatedTests",
-    "git add"
+		"yarn test --findRelatedTests"
   ]
 }

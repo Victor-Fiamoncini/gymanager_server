@@ -10,8 +10,11 @@ class StudentController {
 		const { name = '', page = 1 } = req.query
 
 		const students = await Student.findAll({
-			where: { name: { [Op.like]: `%${name}%` } },
-			attributes: ['id', 'name', 'age', 'weight', 'height'],
+			where: {
+				name: { [Op.like]: `%${name}%` },
+				user_id: req.userId,
+			},
+			attributes: ['id', 'name', 'email', 'age', 'weight', 'height'],
 			offset: (page - 1) * 10,
 			limit: 10,
 		})
@@ -27,7 +30,10 @@ class StudentController {
 		const { id } = req.params
 
 		const student = await Student.findOne({
-			where: { id },
+			where: {
+				id,
+				user_id: req.userId,
+			},
 			attributes: ['id', 'name', 'email', 'age', 'weight', 'height'],
 		})
 
@@ -39,28 +45,37 @@ class StudentController {
 	}
 
 	async store(req, res) {
-		const { email } = req.body
-
-		if (await Student.findOne({ where: { email } })) {
+		if (await Student.findOne({ where: { email: req.body.email } })) {
 			return res
 				.status(404)
 				.json(customMessage(studentsErrors.alreadyExists, 'email'))
 		}
 
-		const { id, name, age, height, weight } = await Student.create(req.body)
+		const { id, name, email, age, height, weight } = await Student.create({
+			...req.body,
+			user_id: req.userId,
+		})
 
-		return res.status(201).json({ id, name, age, height, weight })
+		return res.status(201).json({ id, name, email, age, height, weight })
 	}
 
 	async update(req, res) {
-		const studentById = await Student.findByPk(req.params.id)
+		const studentById = await Student.findOne({
+			where: {
+				id: req.params.id,
+				user_id: req.userId,
+			},
+		})
 
 		if (!studentById) {
 			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
 		}
 
 		const studentByEmail = await Student.findOne({
-			where: { email: req.body.email },
+			where: {
+				email: req.body.email,
+				user_id: req.userId,
+			},
 		})
 
 		if (studentByEmail && studentById.email !== studentByEmail.email) {
@@ -69,18 +84,27 @@ class StudentController {
 				.json(customMessage(studentsErrors.alreadyExists, 'email'))
 		}
 
-		const { id, name, age, height, weight } = await studentById.update(
+		const { id, name, email, age, height, weight } = await studentById.update(
 			req.body,
 			{
-				where: { id: req.params.id },
+				where: {
+					id: req.params.id,
+					user_id: req.userId,
+				},
 			}
 		)
 
-		return res.status(200).json({ id, name, age, height, weight })
+		return res.status(200).json({ id, name, email, age, height, weight })
 	}
 
 	async destroy(req, res) {
-		const student = await Student.findByPk(req.params.id)
+		const student = await Student.findOne({
+			where: {
+				id: req.params.id,
+				user_id: req.userId,
+			},
+		})
+
 		if (!student) {
 			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
 		}
