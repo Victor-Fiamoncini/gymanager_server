@@ -50,3 +50,18 @@ export const sessions = {
 	malformattedToken: 'Token de autenticação desformatado',
 	invalidToken: 'Token de autenticação inválido',
 }
+
+export const plans = {
+	notFound: 'Plano não encontrado',
+	notFoundIndex: 'Planos não encontrados',
+	alreadyExists: 'Esse plano já está cadastrado',
+	title: {
+		invalid: 'Por favor informe um título válida',
+	},
+	duration: {
+		invalid: 'Por favor informe uma duração válida',
+	},
+	price: {
+		invalid: 'Por favor informe um preço válido',
+	},
+}

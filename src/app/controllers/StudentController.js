@@ -31,7 +31,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
+			return res.status(404).json(customMessage(studentsErrors.notFound))
 		}
 
 		return res.status(200).json(student)
@@ -65,7 +65,7 @@ class StudentController {
 		})
 
 		if (!studentById) {
-			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
+			return res.status(404).json(customMessage(studentsErrors.notFound))
 		}
 
 		const studentByEmail = await Student.findOne({
@@ -103,7 +103,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json(customMessage(studentsErrors.notFound, 'id'))
+			return res.status(404).json(customMessage(studentsErrors.notFound))
 		}
 
 		await student.destroy()

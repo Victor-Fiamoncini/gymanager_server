@@ -9,3 +9,9 @@ export const students = {
 	updated: 'Aluno atualizado com sucesso',
 	deleted: 'Aluno excluído com sucesso',
 }
+
+export const plans = {
+	created: 'Plano cadastrado com sucesso',
+	updated: 'Plano atualizado com sucesso',
+	deleted: 'Plano excluído com sucesso',
+}
