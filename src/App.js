@@ -14,6 +14,8 @@ export default class App {
 
 		this.configs()
 		this.middlewares()
+		this.static()
+		this.routes()
 	}
 
 	get app() {
@@ -25,22 +27,28 @@ export default class App {
 	}
 
 	middlewares() {
-		const { CLIENT_HOST, FILE_URL_PREFIX, NODE_ENV } = process.env
+		const { CLIENT_HOST, NODE_ENV } = process.env
 
 		if (NODE_ENV === 'production') {
 			this.express.use(cors({ origin: CLIENT_HOST }))
-			this.express.use(helmet())
+		} else if (NODE_ENV === 'development' || NODE_ENV === 'test') {
+			this.express.use(cors({ origin: '*' }))
 		}
 
+		this.express.use(helmet())
 		this.express.use(express.json())
 		this.express.use(morgan('dev'))
+	}
 
-		this.express.use(
-			`/${FILE_URL_PREFIX}`,
-			express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
-		)
-
+	routes() {
 		this.express.use(routes)
 		this.express.use(error)
+	}
+
+	static() {
+		this.express.use(
+			`/${process.env.FILE_URL_PREFIX}`,
+			express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+		)
 	}
 }

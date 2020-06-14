@@ -1,6 +1,12 @@
-// eslint-disable-next-line no-unused-vars
-export default (err, req, res, next) => {
-	console.log(err)
+import Youch from 'youch'
 
-	res.status(500).json({ error: `${err.name} - ${err.message}` })
+// eslint-disable-next-line no-unused-vars
+export default async (err, req, res, next) => {
+	if (process.env.NODE_ENV === 'development') {
+		const errors = await new Youch(err, req).toJSON()
+
+		res.status(500).json(errors)
+	}
+
+	res.status(500).json({ error: 'Internal server error' })
 }

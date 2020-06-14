@@ -9,7 +9,11 @@ const router = Router()
 /**
  * Public Sessions
  */
-router.post('/sessions', middlewares.async(controllers.SessionController.store))
+router.post(
+	'/sessions',
+	middlewares.brute.prevent,
+	middlewares.async(controllers.SessionController.store)
+)
 
 /**
  * Public Users

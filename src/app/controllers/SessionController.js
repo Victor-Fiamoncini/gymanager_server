@@ -10,7 +10,7 @@ class SessionController {
 		const user = await User.findOne({ where: { email } })
 
 		if (!user) {
-			return res.status(404).json(customMessage(users.notFound))
+			return res.status(404).json(customMessage(sessions.invalidCredentials))
 		}
 
 		if (!(await user.matchPassword(password))) {
@@ -19,6 +19,7 @@ class SessionController {
 
 		user.password_hash = undefined
 		user.password = undefined
+
 		return res.status(200).json({
 			user,
 			token: user.generateToken(),

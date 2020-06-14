@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken'
+
 import { sessions } from '../messages/errors'
 
 export default (req, res, next) => {
