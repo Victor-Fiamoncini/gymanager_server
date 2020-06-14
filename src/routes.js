@@ -11,7 +11,7 @@ const router = Router()
  */
 router.post(
 	'/sessions',
-	middlewares.brute.prevent,
+	process.env.NODE_ENV === 'test' ? [] : middlewares.brute.prevent,
 	middlewares.async(controllers.SessionController.store)
 )
 
@@ -59,7 +59,7 @@ router.put(
 /**
  * Protected Students
  */
-router.get('/students/', middlewares.async(controllers.StudentController.index))
+router.get('/students', middlewares.async(controllers.StudentController.index))
 router.get(
 	'/students/:id',
 	middlewares.async(controllers.StudentController.show)
@@ -77,6 +77,25 @@ router.put(
 router.delete(
 	'/students/:id',
 	middlewares.async(controllers.StudentController.destroy)
+)
+
+/**
+ * Protected Plans
+ */
+router.get('/plans', middlewares.async(controllers.PlanController.index))
+router.post(
+	'/plans',
+	validators.PlanValidator.store,
+	middlewares.async(controllers.PlanController.store)
+)
+router.put(
+	'/plans/:id',
+	validators.PlanValidator.update,
+	middlewares.async(controllers.PlanController.update)
+)
+router.delete(
+	'/plans/:id',
+	middlewares.async(controllers.PlanController.destroy)
 )
 
 export default router

@@ -1,9 +1,8 @@
 import * as models from '../../src/app/models'
+import sequelize from '../../src/app/database'
 
 export default async () => {
-	return await Promise.all(
-		Object.values(models).map(
-			async model => await model.destroy({ truncate: true, force: true })
-		)
-	)
+	await sequelize.query('SET FOREIGN_KEY_CHECKS = 0', null, { raw: true })
+
+	return await models.User.destroy({ truncate: true, force: true })
 }

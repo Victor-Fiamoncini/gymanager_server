@@ -38,7 +38,11 @@ class StudentController {
 	}
 
 	async store(req, res) {
-		if (await Student.findOne({ where: { email: req.body.email } })) {
+		const student = await Student.findOne({
+			where: { email: req.body.email, user_id: req.userId },
+		})
+
+		if (student) {
 			return res
 				.status(404)
 				.json(customMessage(studentsErrors.alreadyExists, 'email'))

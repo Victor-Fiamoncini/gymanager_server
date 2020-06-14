@@ -44,6 +44,11 @@ export default class User extends Model {
 			foreignKey: 'user_id',
 			as: 'students',
 		})
+
+		this.hasMany(models.Plan, {
+			foreignKey: 'user_id',
+			as: 'plans',
+		})
 	}
 
 	async matchPassword(password) {
