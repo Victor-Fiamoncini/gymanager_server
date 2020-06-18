@@ -40,15 +40,15 @@ export default class App {
 		this.express.use(morgan('dev'))
 	}
 
-	routes() {
-		this.express.use(routes)
-		this.express.use(error)
-	}
-
 	static() {
 		this.express.use(
 			`/${process.env.FILE_URL_PREFIX}`,
-			express.static(resolve(__dirname, '..', 'tmp', 'uploads'))
+			express.static(resolve(__dirname, '..', 'temp', 'uploads'))
 		)
+	}
+
+	routes() {
+		this.express.use(routes)
+		this.express.use(error)
 	}
 }
