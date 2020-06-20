@@ -1,7 +1,7 @@
 import { User } from '../models'
 
-import customMessage from '../messages/customMessage'
-import { sessions, users } from '../messages/errors'
+import message from '../utils/message'
+import { sessions } from '../messages/errors'
 
 class SessionController {
 	async store(req, res) {
@@ -10,11 +10,11 @@ class SessionController {
 		const user = await User.findOne({ where: { email } })
 
 		if (!user) {
-			return res.status(404).json(customMessage(sessions.invalidCredentials))
+			return res.status(404).json(message(sessions.invalidCredentials))
 		}
 
 		if (!(await user.matchPassword(password))) {
-			return res.status(401).json(customMessage(sessions.invalidCredentials))
+			return res.status(401).json(message(sessions.invalidCredentials))
 		}
 
 		user.password_hash = undefined
@@ -27,11 +27,7 @@ class SessionController {
 	}
 
 	async refresh(req, res) {
-		const user = await User.findByPk(req.userId)
-
-		if (!user) {
-			return res.status(404).json(customMessage(users.notFound))
-		}
+		const { user } = req
 
 		user.password_hash = undefined
 		return res.status(200).json(user)

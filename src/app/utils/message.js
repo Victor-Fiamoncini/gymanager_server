@@ -1,5 +1,5 @@
 /**
- * @description That custom message follow the Joi validator responses format
+ * @description That custom message object follow the Joi validator responses format
  */
 export default (message, field = '') => ({
 	error: 'Validation fails',

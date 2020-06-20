@@ -24,7 +24,7 @@ export default (req, res, next) => {
 	try {
 		const { id } = jwt.verify(token, process.env.JWT_AUTH_SECRET)
 
-		req.userId = id.toString()
+		req.userId = String(id)
 		return next()
 	} catch (err) {
 		return res.status(401).json({ error: sessions.invalidToken })

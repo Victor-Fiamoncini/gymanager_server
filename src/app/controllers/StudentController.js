@@ -1,6 +1,6 @@
 import { Student } from '../models'
 
-import customMessage from '../messages/customMessage'
+import message from '../utils/message'
 import { students as studentsErrors } from '../messages/errors'
 import { students as studentsSuccess } from '../messages/success'
 
@@ -13,7 +13,7 @@ class StudentController {
 		})
 
 		if (!students) {
-			return res.status(404).json(customMessage(studentsErrors.notFoundIndex))
+			return res.status(404).json(message(studentsErrors.notFoundIndex))
 		}
 
 		return res.status(200).json(students)
@@ -31,7 +31,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json(customMessage(studentsErrors.notFound))
+			return res.status(404).json(message(studentsErrors.notFound))
 		}
 
 		return res.status(200).json(student)
@@ -45,7 +45,7 @@ class StudentController {
 		if (student) {
 			return res
 				.status(404)
-				.json(customMessage(studentsErrors.alreadyExists, 'email'))
+				.json(message(studentsErrors.alreadyExists, 'email'))
 		}
 
 		const { id, name, email, age, height, weight } = await Student.create({
@@ -65,7 +65,7 @@ class StudentController {
 		})
 
 		if (!studentById) {
-			return res.status(404).json(customMessage(studentsErrors.notFound))
+			return res.status(404).json(message(studentsErrors.notFound))
 		}
 
 		const studentByEmail = await Student.findOne({
@@ -78,7 +78,7 @@ class StudentController {
 		if (studentByEmail && studentById.email !== studentByEmail.email) {
 			return res
 				.status(404)
-				.json(customMessage(studentsErrors.alreadyExists, 'email'))
+				.json(message(studentsErrors.alreadyExists, 'email'))
 		}
 
 		const { id, name, email, age, height, weight } = await studentById.update(
@@ -103,7 +103,7 @@ class StudentController {
 		})
 
 		if (!student) {
-			return res.status(404).json(customMessage(studentsErrors.notFound))
+			return res.status(404).json(message(studentsErrors.notFound))
 		}
 
 		await student.destroy()

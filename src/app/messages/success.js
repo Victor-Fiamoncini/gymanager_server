@@ -15,3 +15,9 @@ export const plans = {
 	updated: 'Plano atualizado com sucesso',
 	deleted: 'Plano excluído com sucesso',
 }
+
+export const registrations = {
+	created: 'Matrícula cadastrada com sucesso',
+	updated: 'Matrícula atualizada com sucesso',
+	deleted: 'Matrícula excluída com sucesso',
+}

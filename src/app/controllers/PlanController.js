@@ -1,6 +1,6 @@
 import { Plan } from '../models'
 
-import customMessage from '../messages/customMessage'
+import message from '../utils/message'
 import { plans as plansErrors } from '../messages/errors'
 import { plans as plansSuccess } from '../messages/success'
 
@@ -13,7 +13,7 @@ class PlanController {
 		})
 
 		if (!plans) {
-			return res.status(404).json(customMessage(plansErrors.notFoundIndex))
+			return res.status(404).json(message(plansErrors.notFoundIndex))
 		}
 
 		return res.status(200).json(plans)
@@ -30,7 +30,7 @@ class PlanController {
 		})
 
 		if (plan) {
-			return res.status(400).json(customMessage(plansErrors.alreadyExists))
+			return res.status(400).json(message(plansErrors.alreadyExists))
 		}
 
 		const { id } = await Plan.create({
@@ -52,7 +52,7 @@ class PlanController {
 		})
 
 		if (!plan) {
-			return res.status(404).json(customMessage(plansErrors.notFound))
+			return res.status(404).json(message(plansErrors.notFound))
 		}
 
 		const { id, title, price, duration } = await plan.update(req.body, {
@@ -74,7 +74,7 @@ class PlanController {
 		})
 
 		if (!plan) {
-			return res.status(404).json(customMessage(plansErrors.notFound))
+			return res.status(404).json(message(plansErrors.notFound))
 		}
 
 		await plan.destroy()

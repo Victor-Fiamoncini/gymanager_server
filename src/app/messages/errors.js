@@ -65,3 +65,18 @@ export const plans = {
 		invalid: 'Por favor informe um preço válido',
 	},
 }
+
+export const registrations = {
+	notFound: 'Matrícula não encontrada',
+	notFoundIndex: 'Matrículas não encontradas',
+	alreadyExists: 'Essa matrícula já está cadastrada',
+	start_date: {
+		invalid: 'Por favor informe uma data de início válida',
+	},
+	end_date: {
+		invalid: 'Por favor informe uma data de término válida',
+	},
+	price: {
+		invalid: 'Por favor informe um preço válido',
+	},
+}

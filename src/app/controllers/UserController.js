@@ -1,25 +1,19 @@
 import { User } from '../models'
 
-import customMessage from '../messages/customMessage'
-import { sessions, users as usersErrors } from '../messages/errors'
+import message from '../utils/message'
+import { users as usersErrors } from '../messages/errors'
 import { users as usersSuccess } from '../messages/success'
 
 class UserController {
 	async show(req, res) {
-		const user = await User.findOne({ where: { id: req.params.id } })
-		if (!user) {
-			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))
-		}
+		const { id, name, email, photo_url } = req.user
 
-		const { id, name, email, photo_url } = user
 		return res.status(200).json({ id, name, email, photo_url })
 	}
 
 	async store(req, res) {
 		if (await User.findOne({ where: { email: req.body.email } })) {
-			return res
-				.status(400)
-				.json(customMessage(usersErrors.alreadyExists, 'email'))
+			return res.status(400).json(message(usersErrors.alreadyExists, 'email'))
 		}
 
 		const { id, name, email, photo_url } = await User.create(req.body)
@@ -28,48 +22,32 @@ class UserController {
 	}
 
 	async update(req, res) {
-		const userById = await User.findOne({ where: { id: req.params.id } })
-		if (!userById) {
-			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))
-		}
+		const { user, userId } = req
 
 		const userByEmail = await User.findOne({ where: { email: req.body.email } })
-		if (userByEmail && userByEmail.email !== userById.email) {
-			return res
-				.status(404)
-				.json(customMessage(usersErrors.alreadyExists, 'email'))
+		if (userByEmail && userByEmail.email !== user.email) {
+			return res.status(404).json(message(usersErrors.alreadyExists, 'email'))
 		}
 
-		const { id, name, email, photo_url } = await userById.update(req.body, {
-			where: { id: req.params.id },
+		const { id, name, email, photo_url } = await user.update(req.body, {
+			where: { id: userId },
 		})
 
 		return res.status(200).json({ id, name, email, photo_url })
 	}
 
 	async destroy(req, res) {
-		const { id } = req.params
-
-		if (id !== req.userId) {
-			return res.status(401).json(customMessage(sessions.unauthorized))
-		}
-
-		await User.destroy({ where: { id } })
+		await req.user.destroy()
 
 		return res.status(200).json({ success: usersSuccess.deleted })
 	}
 
 	async storePhoto(req, res) {
-		const user = await User.findOne({ where: { id: req.params.id } })
-		if (!user) {
-			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))
+		if (!req.file) {
+			return res.status(404).json(message(usersErrors.photo.required, 'photo'))
 		}
 
-		if (!req.file) {
-			return res
-				.status(404)
-				.json(customMessage(usersErrors.photo.required, 'photo'))
-		}
+		const { user } = req
 
 		user.photo = req.file.filename
 		await user.save()

@@ -34,6 +34,7 @@ router.use(middlewares.auth)
  */
 router.get(
 	'/sessions',
+	middlewares.exists,
 	middlewares.async(controllers.SessionController.refresh)
 )
 
@@ -41,23 +42,23 @@ router.get(
  * Protected Users
  */
 router.get(
-	'/users/:id',
-	middlewares.current,
+	'/users',
+	middlewares.exists,
 	middlewares.async(controllers.UserController.show)
 )
 router.put(
-	'/users/:id',
-	[validators.UserValidator.update, middlewares.current],
+	'/users',
+	[validators.UserValidator.update, middlewares.exists],
 	middlewares.async(controllers.UserController.update)
 )
 router.delete(
-	'/users/:id',
-	middlewares.current,
+	'/users',
+	middlewares.exists,
 	middlewares.async(controllers.UserController.destroy)
 )
 router.put(
-	'/users/:id/photo',
-	[middlewares.current, middlewares.upload.single('photo')],
+	'/users/photo',
+	[middlewares.exists, middlewares.upload.single('photo')],
 	middlewares.async(controllers.UserController.storePhoto)
 )
 
@@ -101,6 +102,15 @@ router.put(
 router.delete(
 	'/plans/:id',
 	middlewares.async(controllers.PlanController.destroy)
+)
+
+/**
+ * Protected Registrations
+ */
+router.post(
+	'/registrations',
+	validators.RegistrationValidator.store,
+	middlewares.async(controllers.PlanController.store)
 )
 
 export default router
