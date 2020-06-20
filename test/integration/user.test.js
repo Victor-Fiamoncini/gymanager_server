@@ -1,13 +1,21 @@
 import request from 'supertest'
 import { resolve } from 'path'
 
-import { app } from '../utils/bootstrap'
+import app from '../utils/bootstrap'
 import truncate from '../utils/truncate'
 import { User } from '../../src/app/models'
 
 describe('Users', () => {
-	beforeAll(async () => {
-		await truncate()
+	beforeAll(() => {
+		truncate()
+	})
+
+	beforeEach(() => {
+		truncate()
+	})
+
+	afterAll(() => {
+		truncate()
 	})
 
 	it('should store a new user', async () => {
@@ -27,6 +35,12 @@ describe('Users', () => {
 	})
 
 	it('should update a user information', async () => {
+		await User.create({
+			name: 'Victor',
+			email: 'victor@hotmail.com',
+			password: '1234567',
+		})
+
 		const user = await request(app).post('/sessions').send({
 			email: 'victor@hotmail.com',
 			password: '1234567',
@@ -63,9 +77,5 @@ describe('Users', () => {
 			.attach('photo', resolve(__dirname, '..', 'photo.jpeg'))
 
 		expect(res.status).toBe(200)
-	})
-
-	afterAll(async () => {
-		await truncate()
 	})
 })

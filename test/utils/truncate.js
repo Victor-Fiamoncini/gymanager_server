@@ -1,12 +1,16 @@
-import * as models from '../../src/app/models'
 import sequelize from '../../src/app/database'
 
-export default async () => {
-	await sequelize.query('SET FOREIGN_KEY_CHECKS = 0', null, { raw: true })
+export default () => {
+	sequelize.transaction(t => {
+		const options = { raw: true, transaction: t }
 
-	return await models.User.destroy({
-		cascade: true,
-		truncate: true,
-		force: true,
+		return sequelize
+			.query('SET FOREIGN_KEY_CHECKS = 0', options)
+			.then(() => {
+				return sequelize.query('truncate table users', options)
+			})
+			.then(() => {
+				return sequelize.query('SET FOREIGN_KEY_CHECKS = 1', options)
+			})
 	})
 }

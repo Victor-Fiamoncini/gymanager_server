@@ -1,12 +1,12 @@
 import { DataTypes, Model } from 'sequelize'
 
-export default class Plan extends Model {
+export default class Registration extends Model {
 	static init(connection) {
 		super.init(
 			{
-				title: DataTypes.STRING,
-				duration: DataTypes.STRING,
-				price: DataTypes.INTEGER,
+				start_date: DataTypes.DATE,
+				end_date: DataTypes.DATE,
+				price: DataTypes.FLOAT,
 			},
 			{
 				sequelize: connection,
@@ -20,9 +20,14 @@ export default class Plan extends Model {
 			as: 'user',
 		})
 
-		this.hasMany(models.Registration, {
+		this.belongsTo(models.Student, {
+			foreignKey: 'student_id',
+			as: 'student',
+		})
+
+		this.belongsTo(models.Plan, {
 			foreignKey: 'plan_id',
-			as: 'registrations',
+			as: 'plan',
 		})
 	}
 }

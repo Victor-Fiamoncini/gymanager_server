@@ -23,7 +23,7 @@ export default {
 		},
 	}),
 	limits: {
-		fileSize: 2 * 1024 * 1024,
+		fileSize: 3 * 1024 * 1024,
 	},
 	fileFilter: (req, file, callback) => {
 		if (allowedMimes.includes(file.mimetype)) {

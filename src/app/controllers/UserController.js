@@ -6,10 +6,6 @@ import { users as usersSuccess } from '../messages/success'
 
 class UserController {
 	async show(req, res) {
-		if (req.params.id !== req.userId) {
-			return res.status(401).json(customMessage(sessions.unauthorized))
-		}
-
 		const user = await User.findOne({ where: { id: req.params.id } })
 		if (!user) {
 			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))
@@ -32,10 +28,6 @@ class UserController {
 	}
 
 	async update(req, res) {
-		if (req.params.id !== req.userId) {
-			return res.status(401).json(customMessage(sessions.unauthorized))
-		}
-
 		const userById = await User.findOne({ where: { id: req.params.id } })
 		if (!userById) {
 			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))
@@ -68,10 +60,6 @@ class UserController {
 	}
 
 	async storePhoto(req, res) {
-		if (req.params.id !== req.userId) {
-			return res.status(401).json(customMessage(sessions.unauthorized))
-		}
-
 		const user = await User.findOne({ where: { id: req.params.id } })
 		if (!user) {
 			return res.status(404).json(customMessage(usersErrors.notFound, 'email'))

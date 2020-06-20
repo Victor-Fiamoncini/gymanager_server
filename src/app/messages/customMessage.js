@@ -1,3 +1,6 @@
+/**
+ * @description That custom message follow the Joi validator responses format
+ */
 export default (message, field = '') => ({
 	error: 'Validation fails',
 	details: [

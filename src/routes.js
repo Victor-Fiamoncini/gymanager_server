@@ -40,19 +40,24 @@ router.get(
 /**
  * Protected Users
  */
-router.get('/users/:id', middlewares.async(controllers.UserController.show))
+router.get(
+	'/users/:id',
+	middlewares.current,
+	middlewares.async(controllers.UserController.show)
+)
 router.put(
 	'/users/:id',
-	validators.UserValidator.update,
+	[validators.UserValidator.update, middlewares.current],
 	middlewares.async(controllers.UserController.update)
 )
 router.delete(
 	'/users/:id',
+	middlewares.current,
 	middlewares.async(controllers.UserController.destroy)
 )
 router.put(
 	'/users/:id/photo',
-	middlewares.upload.single('photo'),
+	[middlewares.current, middlewares.upload.single('photo')],
 	middlewares.async(controllers.UserController.storePhoto)
 )
 
