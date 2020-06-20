@@ -23,10 +23,16 @@ class UserController {
 
 	async update(req, res) {
 		const { user, userId } = req
-
 		const userByEmail = await User.findOne({ where: { email: req.body.email } })
+
 		if (userByEmail && userByEmail.email !== user.email) {
 			return res.status(404).json(message(usersErrors.alreadyExists, 'email'))
+		}
+
+		if (!(await user.matchPassword(req.body.currentPassword))) {
+			return res
+				.status(404)
+				.json(message(usersErrors.password.isNotCurrent, 'currentPassword'))
 		}
 
 		const { id, name, email, photo_url } = await user.update(req.body, {

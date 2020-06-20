@@ -18,11 +18,15 @@ class UserValidator {
 		const schema = Joi.object().keys({
 			name: Joi.string().min(2).required().label(users.name.invalid),
 			email: Joi.string().email().required().label(users.email.isEmail),
+			currentPassword: Joi.string()
+				.min(6)
+				.required()
+				.label(users.password.invalid),
 			password: Joi.string().min(6).required().label(users.password.invalid),
 			confirmPassword: Joi.string()
 				.min(6)
 				.valid(Joi.ref('password'))
-				.label(users.password.invalid),
+				.label(users.password.dontMatch),
 		})
 
 		await validate(res, next, req.body, schema)

@@ -13,6 +13,8 @@ export const users = {
 	password: {
 		invalid: 'Por favor informe uma senha válida',
 		length: 'Senha muito curta',
+		isNotCurrent: 'Senha atual incorreta',
+		dontMatch: 'As novas senhas precisam ser iguais',
 	},
 	photo: {
 		required: 'Por favor, anexe uma foto',
