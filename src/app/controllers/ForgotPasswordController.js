@@ -30,6 +30,7 @@ class ForgotPasswordController {
 				context: {
 					name: user.name,
 					token: resetToken,
+					url: `${process.env.CLIENT_HOST}/recuperar-a-senha`,
 				},
 			})
 
