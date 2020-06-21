@@ -25,6 +25,14 @@ router.post(
 )
 
 /**
+ * Public ForgotPassword
+ */
+router.post(
+	'/forgot',
+	middlewares.async(controllers.ForgotPasswordController.store)
+)
+
+/**
  * Protected routes
  */
 router.use(middlewares.auth)
@@ -34,7 +42,7 @@ router.use(middlewares.auth)
  */
 router.get(
 	'/sessions',
-	middlewares.exists,
+	middlewares.current,
 	middlewares.async(controllers.SessionController.refresh)
 )
 
@@ -43,22 +51,22 @@ router.get(
  */
 router.get(
 	'/users',
-	middlewares.exists,
+	middlewares.current,
 	middlewares.async(controllers.UserController.show)
 )
 router.put(
 	'/users',
-	[validators.UserValidator.update, middlewares.exists],
+	[validators.UserValidator.update, middlewares.current],
 	middlewares.async(controllers.UserController.update)
 )
 router.delete(
 	'/users',
-	middlewares.exists,
+	middlewares.current,
 	middlewares.async(controllers.UserController.destroy)
 )
 router.put(
 	'/users/photo',
-	[middlewares.exists, middlewares.upload.single('photo')],
+	[middlewares.current, middlewares.upload.single('photo')],
 	middlewares.async(controllers.UserController.storePhoto)
 )
 

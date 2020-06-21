@@ -28,6 +28,12 @@ module.exports = {
 			photo_url: {
 				type: Sequelize.STRING,
 			},
+			reset_password_token: {
+				type: Sequelize.STRING,
+			},
+			reset_password_expire: {
+				type: Sequelize.DATE,
+			},
 			created_at: {
 				type: Sequelize.DATE,
 				allowNull: false,
@@ -39,7 +45,7 @@ module.exports = {
 		})
 	},
 
-	down: (queryInterface) => {
+	down: queryInterface => {
 		return queryInterface.dropTable('users')
 	},
 }

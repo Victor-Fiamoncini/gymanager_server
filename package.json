@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./src/server",
-    "build": "babel ./src --out-dir build --source-maps",
+    "build": "babel ./src --out-dir build --copy-files --source-maps",
     "start": "NODE_ENV=production babel-node ./build/server",
     "test": "NODE_ENV=test jest --forceExit"
   },

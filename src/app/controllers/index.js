@@ -1,5 +1,6 @@
+export { default as ForgotPasswordController } from './ForgotPasswordController'
 export { default as PlanController } from './PlanController'
-export { default as ReRegistrationController } from './RegistrationController'
+export { default as RegistrationController } from './RegistrationController'
 export { default as SessionController } from './SessionController'
 export { default as StudentController } from './StudentController'
 export { default as UserController } from './UserController'
