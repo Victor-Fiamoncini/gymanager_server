@@ -82,3 +82,11 @@ export const registrations = {
 		invalid: 'Por favor informe um preço válido',
 	},
 }
+
+export const forgotPassword = {
+	invalidToken: 'Chave de recuperação inválida',
+}
+
+export const server = {
+	internalError: 'Server error',
+}

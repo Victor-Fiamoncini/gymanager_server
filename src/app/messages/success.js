@@ -21,3 +21,10 @@ export const registrations = {
 	updated: 'Matrícula atualizada com sucesso',
 	deleted: 'Matrícula excluída com sucesso',
 }
+
+export const forgotPassword = {
+	forgotRequestCreated:
+		'Uma nova solicitação para recuperar sua senha foi enviada por e-mail',
+	passwordReseted:
+		'Sua senha foi refeita com sucesso, faça o logon para continuar',
+}

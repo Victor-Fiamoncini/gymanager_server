@@ -31,6 +31,11 @@ router.post(
 	'/forgot',
 	middlewares.async(controllers.ForgotPasswordController.store)
 )
+router.put(
+	'/reset',
+	validators.ForgotPasswordValidator.reset,
+	middlewares.async(controllers.ForgotPasswordController.reset)
+)
 
 /**
  * Protected routes

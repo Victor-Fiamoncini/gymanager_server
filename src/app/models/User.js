@@ -1,6 +1,7 @@
 import { DataTypes, Model } from 'sequelize'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import crypto from 'crypto'
 
 export default class User extends Model {
 	static init(connection) {
@@ -12,6 +13,8 @@ export default class User extends Model {
 				password_hash: DataTypes.STRING,
 				photo: DataTypes.STRING,
 				photo_url: DataTypes.STRING,
+				reset_password_token: DataTypes.STRING,
+				reset_password_expire: DataTypes.DATE,
 			},
 			{
 				sequelize: connection,
@@ -60,11 +63,24 @@ export default class User extends Model {
 		return await bcrypt.compare(password, this.password_hash)
 	}
 
-	generateToken() {
+	generateJwtToken() {
 		const { JWT_AUTH_SECRET, JWT_EXPIRES } = process.env
 
 		return jwt.sign({ id: this.id }, JWT_AUTH_SECRET, {
 			expiresIn: Number(JWT_EXPIRES),
 		})
+	}
+
+	generateResetPasswordToken() {
+		const resetToken = crypto.randomBytes(16).toString('hex')
+
+		this.reset_password_token = crypto
+			.createHash('sha256')
+			.update(resetToken)
+			.digest('hex')
+
+		this.reset_password_expire = Date.now() + 10 * 60 * 1000
+
+		return resetToken
 	}
 }
