@@ -120,10 +120,23 @@ router.delete(
 /**
  * Protected Registrations
  */
+router.get(
+	'/registrations',
+	middlewares.async(controllers.RegistrationController.index)
+)
 router.post(
 	'/registrations',
 	validators.RegistrationValidator.store,
-	middlewares.async(controllers.PlanController.store)
+	middlewares.async(controllers.RegistrationController.store)
+)
+router.put(
+	'/registrations/:id',
+	validators.RegistrationValidator.update,
+	middlewares.async(controllers.RegistrationController.update)
+)
+router.delete(
+	'/registrations/:id',
+	middlewares.async(controllers.RegistrationController.destroy)
 )
 
 export default router

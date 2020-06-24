@@ -7,6 +7,8 @@ export default class Registration extends Model {
 				start_date: DataTypes.DATE,
 				end_date: DataTypes.DATE,
 				price: DataTypes.FLOAT,
+				student_id: DataTypes.INTEGER,
+				plan_id: DataTypes.INTEGER,
 			},
 			{
 				sequelize: connection,

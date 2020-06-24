@@ -21,10 +21,5 @@ export default class Student extends Model {
 			foreignKey: 'user_id',
 			as: 'user',
 		})
-
-		this.hasOne(models.Registration, {
-			foreignKey: 'registration_id',
-			as: 'registration',
-		})
 	}
 }

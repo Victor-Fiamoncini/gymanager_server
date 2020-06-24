@@ -72,6 +72,14 @@ export const registrations = {
 	notFound: 'Matrícula não encontrada',
 	notFoundIndex: 'Matrículas não encontradas',
 	alreadyExists: 'Essa matrícula já está cadastrada',
+	student_id: {
+		invalid: 'Por favor anexe um aluno para realizar a matrícula',
+		notFound: 'Aluno não encontrado',
+	},
+	plan_id: {
+		invalid: 'Por favor anexe um plano para realizar a matrícula',
+		notFound: 'Plano não encontrado',
+	},
 	start_date: {
 		invalid: 'Por favor informe uma data de início válida',
 	},
