@@ -1,6 +1,6 @@
 # Gymanager REST API 💪
 
-REST API for gym management - Built with 💚 Express, Sequelize, Jest, Multer, JWT...
+REST API for gym management - Built with Express, Sequelize, Jest, Multer, JWT...
 
 ## How to install and run (production build) 🛠
 Using npm:
